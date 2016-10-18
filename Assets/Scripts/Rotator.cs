@@ -3,8 +3,10 @@ using System.Collections;
 
 public class Rotator : MonoBehaviour {
 
-	// Update is called once per frame
+	//This simple class makes the Easter Eggs spin
 	void Update () {
-		transform.Rotate (new Vector3 (15, 30, 45) * Time.deltaTime);
+		transform.Rotate (new Vector3 (45, 45, 45) * Time.deltaTime);
 	}
 }
+
+//Old rotation: 15, 30, 45

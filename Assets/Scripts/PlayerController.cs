@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour {
 	public int pickUpCount;
 
 	public Text countText;
-	public Text winText;
 	private Rigidbody rb;
 	private int count;
 
@@ -16,7 +15,6 @@ public class PlayerController : MonoBehaviour {
 		rb = GetComponent<Rigidbody>();
 		count = 0;
 		SetCountText ();
-		winText.text = "";
 	}
 
 	void FixedUpdate () {
@@ -28,19 +26,22 @@ public class PlayerController : MonoBehaviour {
 		rb.AddForce (movement * speed);
 	}
 
+	//****we may want to move this to another class!****
 	void OnTriggerEnter (Collider other){
-		if (other.gameObject.CompareTag("Pick Up")){
-			other.gameObject.SetActive(false);
+		if (other.gameObject.CompareTag("EasterEgg")){
+			Destroy (other.gameObject);
 			count++;
 			SetCountText ();
 		}
+		if (other.gameObject.CompareTag("Jackolantern")){
+			Destroy (other.gameObject);
+			count++;
+			SetCountText ();
+		}
+		//if hit skeleton -- lose points?!
 	}
 
 	void SetCountText (){
 		countText.text = "Count: " + count.ToString ();
-		if (count >= pickUpCount) {
-			winText.text = "YOU WIN!";
-		}
-
 	}
 }
