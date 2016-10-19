@@ -2,27 +2,42 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController: MonoBehaviour {
+
 	public float speed;
-	private Vector3 dir;
+	public float jump;
+
+	private Rigidbody rb;
+
 
 	void Start() {
-		dir = Vector3.zero;
+		rb = GetComponent<Rigidbody> ();
 	}
 
-	void Update() {
-		if (Input.GetKey (KeyCode.RightArrow)) {
-			dir = Vector3.right;
-		} else if (Input.GetKey (KeyCode.LeftArrow)) {
-			dir = Vector3.left;
-		} else {
-			dir = Vector3.forward;
+
+	void OnTriggerEnter (Collider other) {
+		if (other.tag == "Pick Up") {
+			PlayerPoints.Instance.addPoints ();
+			Debug.Log ("finish adding points");
+			Destroy(other.gameObject);
 		}
-
-		float amountToMove = speed * Time.deltaTime;
-		//		transform.Rotate (dir * amountToMove);
-		transform.Translate (dir * amountToMove);
 	}
+
+
+	void FixedUpdate () {
+
+		//move ball on platform 
+		float moveHorizontal = Input.GetAxis ("Horizontal");
+		float moveVertical = Input.GetAxis ("Vertical");
+
+		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
+		rb.AddForce (movement * speed);
+
+
+	}
+
+
+
 
 //	public float speed;
 //	public int pickUpCount;
