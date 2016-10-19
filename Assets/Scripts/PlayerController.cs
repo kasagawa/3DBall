@@ -30,17 +30,31 @@ public class PlayerController : MonoBehaviour {
 		//		transform.Rotate (dir * amountToMove);
 		transform.Translate (dir * amountToMove);
 	}
-		
+//		
 //	//****we may want to move this to another class!****
 //	void OnTriggerEnter (Collider other){
 //		if (other.gameObject.CompareTag("EasterEgg")){
-//			Destroy (other.gameObject);
-//			count++;
+//			CollectObject (other);
 //			SetCountText ();
 //		}
 //		if (other.gameObject.CompareTag("Jackolantern")){
-//			Destroy (other.gameObject);
-//			count++;
+//			CollectObject (other);
+//			SetCountText ();
+//		}
+//		if (other.gameObject.CompareTag("Ornament")){
+//			CollectObject (other);
+//			SetCountText ();
+//		}
+//		if (other.gameObject.CompareTag("Present")){
+//			CollectObject (other);
+//			SetCountText ();
+//		}
+//		if (other.gameObject.CompareTag("CandyCane")){
+//			CollectObject (other);
+//			SetCountText ();
+//		}
+//		if (other.gameObject.CompareTag("TeddyBear")){
+//			CollectObject (other);
 //			SetCountText ();
 //		}
 //		//if hit skeleton -- lose points?!
@@ -48,5 +62,10 @@ public class PlayerController : MonoBehaviour {
 //
 //	void SetCountText (){
 //		countText.text = "Count: " + count.ToString ();
+//	}
+//
+//	void CollectObject (Collider other){
+//		Destroy (other.gameObject);
+//		count++;
 //	}
 }
