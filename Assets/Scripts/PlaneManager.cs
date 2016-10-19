@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class PlaneManager : MonoBehaviour {
 
+	// amount of planes to create at the start of the game
+	private static int planesToCreate = 100;
+
 	// the current plane/tile to spawn from
 	public GameObject current;
 	// the available planes/tiles to spawn
@@ -32,9 +35,9 @@ public class PlaneManager : MonoBehaviour {
 		leftPlanes = new Stack<GameObject> ();
 		topPlanes = new Stack<GameObject> ();
 
-		CreatePlanes (100);
+		CreatePlanes (planesToCreate);
 
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < planesToCreate / 2; i++) {
 			SpawnPlane ();
 		}
 	}
@@ -51,7 +54,7 @@ public class PlaneManager : MonoBehaviour {
 
 	public void SpawnPlane() {
 		if (leftPlanes.Count == 0 || topPlanes.Count == 0) {
-			CreatePlanes (10);
+			CreatePlanes (planesToCreate / 10);
 		}
 
 		// generating random number between 0 and the amount of available plane prefabs

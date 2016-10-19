@@ -7,7 +7,6 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 dir;
 
 	void Start() {
-		rb = GetComponent<Rigidbody>();
 		dir = Vector3.zero;
 	}
 
