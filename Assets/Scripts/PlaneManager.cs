@@ -7,8 +7,14 @@ public class PlaneManager : MonoBehaviour {
 	// amount of planes to create at the start of the game
 	private static int planesToCreate = 100;
 
+	private GameManager manager;
+
 	// the current plane/tile to spawn from
 	public GameObject current;
+
+	// materials for each level
+	public Material[] materials;
+
 	// the available planes/tiles to spawn
 	public GameObject[] planes;
 
@@ -32,6 +38,8 @@ public class PlaneManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		manager = GameManager.Instance;
+
 		leftPlanes = new Stack<GameObject> ();
 		topPlanes = new Stack<GameObject> ();
 
@@ -67,6 +75,7 @@ public class PlaneManager : MonoBehaviour {
 			tmp = topPlanes.Pop ();
 		}
 
+		tmp.transform.GetChild(0).GetComponent<MeshRenderer>().sharedMaterial = materials[manager.level];
 		tmp.SetActive (true);
 		tmp.transform.position = current.transform.GetChild (0).transform.GetChild (rand).position;
 		current = tmp;

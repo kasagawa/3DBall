@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour {
 		dir = Vector3.zero;
 		rb = GetComponent<Rigidbody>();
 		count = 0;
-		SetCountText ();
+//		SetCountText ();
 	}
 
 	void Update() {
@@ -31,22 +31,22 @@ public class PlayerController : MonoBehaviour {
 		transform.Translate (dir * amountToMove);
 	}
 		
-	//****we may want to move this to another class!****
-	void OnTriggerEnter (Collider other){
-		if (other.gameObject.CompareTag("EasterEgg")){
-			Destroy (other.gameObject);
-			count++;
-			SetCountText ();
-		}
-		if (other.gameObject.CompareTag("Jackolantern")){
-			Destroy (other.gameObject);
-			count++;
-			SetCountText ();
-		}
-		//if hit skeleton -- lose points?!
-	}
-
-	void SetCountText (){
-		countText.text = "Count: " + count.ToString ();
-	}
+//	//****we may want to move this to another class!****
+//	void OnTriggerEnter (Collider other){
+//		if (other.gameObject.CompareTag("EasterEgg")){
+//			Destroy (other.gameObject);
+//			count++;
+//			SetCountText ();
+//		}
+//		if (other.gameObject.CompareTag("Jackolantern")){
+//			Destroy (other.gameObject);
+//			count++;
+//			SetCountText ();
+//		}
+//		//if hit skeleton -- lose points?!
+//	}
+//
+//	void SetCountText (){
+//		countText.text = "Count: " + count.ToString ();
+//	}
 }
