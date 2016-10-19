@@ -7,6 +7,7 @@ public class PlaneManager : MonoBehaviour {
 	// amount of planes to create at the start of the game
 	private static int planesToCreate = 100;
 
+	// the game manager
 	private GameManager manager;
 
 	// the current plane/tile to spawn from
@@ -17,6 +18,20 @@ public class PlaneManager : MonoBehaviour {
 
 	// the available planes/tiles to spawn
 	public GameObject[] planes;
+
+	public GameObject[] easterCollectables;
+
+	public GameObject[] halloweenCollectables;
+
+	public GameObject[] halloweenObstacles;
+
+	public GameObject[] christmasCollectables;
+
+	public GameObject[] christmasTrees;
+
+	public GameObject[] christmasRocks;
+
+	public GameObject fence;
 
 	// a stack of inactive left planes
 	private Stack<GameObject> leftPlanes;
@@ -60,6 +75,7 @@ public class PlaneManager : MonoBehaviour {
 		}
 	}
 
+	// spawns a plane
 	public void SpawnPlane() {
 		if (leftPlanes.Count == 0 || topPlanes.Count == 0) {
 			CreatePlanes (planesToCreate / 10);
@@ -81,6 +97,29 @@ public class PlaneManager : MonoBehaviour {
 		current = tmp;
 
 		//current = (GameObject)Instantiate (planes[rand], current.transform.GetChild(0).transform.GetChild(rand).position, Quaternion.identity);
+	}
+
+	// spawns collectible objects on the current plane
+	public void SpawnCollectible() {
+		if (manager.level == 0) {
+			var easter = current.transform.GetChild (1);
+			var rand = Random.Range (0, easter.childCount);
+
+//			Random r = new Random ();
+			for (int i = 0; i < rand; i++) {
+//				Instantiate (easterCollectables[r.Next(easterCollectables.Length)], 
+			}
+		}
+
+
+
+		var fenceSpace = current.transform.GetChild (2);
+		var halloween = current.transform.GetChild (3);
+		var christmas = current.transform.GetChild (4);
+		var cTrees = christmas.transform.GetChild (1);
+		var cRocks = christmas.transform.GetChild (0);
+
+
 	}
 	
 	// Update is called once per frame
