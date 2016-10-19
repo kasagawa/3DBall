@@ -14,6 +14,22 @@ public class PlayerController : MonoBehaviour {
 	private Rigidbody rb;
 	private int count;
 
+	// materials for each level
+	public Material[] materials;
+
+	// the instance of the current PlaneManager
+	private static PlayerController instance;
+
+	// static property of a PlaneManager 
+	public static PlayerController Instance {
+		get { // an instance getter
+			if (instance == null) {
+				instance = GameObject.FindObjectOfType<PlayerController> ();
+			}
+			return instance;
+		}
+	}
+
 	void Start() {
 		dir = Vector3.zero;
 		rb = GetComponent<Rigidbody>();

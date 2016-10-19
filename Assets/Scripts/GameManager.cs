@@ -5,6 +5,9 @@ using System.Collections;
 public class GameManager : MonoBehaviour {
 	// current level
 	public int level;
+
+	private PlayerController player;
+
 	public Text timerText;
 
 	private float time;
@@ -30,6 +33,8 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Start() {
+		player = PlayerController.Instance;
+
 		time = 0;
 		minutes = 0; 
 		seconds = 0;
@@ -44,11 +49,14 @@ public class GameManager : MonoBehaviour {
 		timerText.text = "Time: " + string.Format ("{0:00} : {1:00}", minutes, seconds);
 	}
 
-	private void changeLevel() {
-		if (level == 3) {
+	public void changeLevel() {
+		if (level == 2) {
+			EndGame();
 			return;
 		} 
 		level++;
+
+		player.GetComponent<MeshRenderer>().sharedMaterial = player.materials[level];
 	}
 
 	public void EndGame() {

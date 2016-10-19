@@ -25,5 +25,6 @@ public class Plane : MonoBehaviour {
 	IEnumerator DestroyPlane() {
 		yield return new WaitForSeconds (destroyDelay);
 		gameObject.SetActive (false);
+		GameManager.Instance.changeLevel ();
 	}
 }

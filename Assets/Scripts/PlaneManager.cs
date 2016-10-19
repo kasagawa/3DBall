@@ -73,9 +73,11 @@ public class PlaneManager : MonoBehaviour {
 			leftPlanes.Peek ().SetActive (false);
 			topPlanes.Peek ().SetActive (false);
 		}
+
+
 	}
 
-	// spawns a plane
+	// spawns a single plane
 	public void SpawnPlane() {
 		if (leftPlanes.Count == 0 || topPlanes.Count == 0) {
 			CreatePlanes (planesToCreate / 10);
@@ -96,30 +98,94 @@ public class PlaneManager : MonoBehaviour {
 		tmp.transform.position = current.transform.GetChild (0).transform.GetChild (rand).position;
 		current = tmp;
 
-		//current = (GameObject)Instantiate (planes[rand], current.transform.GetChild(0).transform.GetChild(rand).position, Quaternion.identity);
+		SpawnObjects ();
 	}
 
-	// spawns collectible objects on the current plane
-	public void SpawnCollectible() {
+	// spawns objects on the current plane
+	public void SpawnObjects() {
 		if (manager.level == 0) {
-			var easter = current.transform.GetChild (1);
-			var rand = Random.Range (0, easter.childCount);
+			var easter = current.transform.FindChild ("CollectablesSpaces"); // get the easter collectible spaces
 
-//			Random r = new Random ();
-			for (int i = 0; i < rand; i++) {
-//				Instantiate (easterCollectables[r.Next(easterCollectables.Length)], 
+			var rand = Random.Range (0, easter.childCount) / 2; // generate random amount of collectibles to generate
+
+			var uniquePos = generateNRandom (rand); // generates rand unique random positions
+			foreach (int i in uniquePos) {
+				var r = Random.Range (0, easterCollectables.Length);
+				Instantiate (easterCollectables [r], easter.GetChild (i).position, Quaternion.identity); 
 			}
+		} else if (manager.level == 1) {
+			var halloween = current.transform.FindChild ("CollectablesSpaces"); // get the halloween collectible spaces
+
+			var rand = Random.Range (0, halloween.childCount) / 2;
+
+			var uniquePos = generateNRandom (rand);
+			foreach (int i in uniquePos) {
+				var r = Random.Range (0, halloweenCollectables.Length);
+				Instantiate (halloweenCollectables [r], halloween.GetChild (i).position, Quaternion.identity);
+			}
+
+			rand = Random.Range (0, 2); // randomly determine if to add a fence
+			if (rand == 1) {
+				var fenceSpace = current.transform.FindChild ("FenceSpace");
+				Instantiate (fence, fenceSpace.GetChild (0).position, Quaternion.identity);
+			}
+
+			rand = Random.Range (0, 2); // randomly determine if to add obsticles
+			if (rand == 1) {
+				var hObsticles = current.transform.FindChild ("HalloweenObsticles");
+				rand = Random.Range (0, halloweenObstacles.Length);
+				uniquePos = generateNRandom (rand);
+				foreach (int i in uniquePos) {
+					var r = Random.Range (0, halloweenCollectables.Length);
+					Instantiate (halloweenObstacles [r], hObsticles.GetChild (i).position, Quaternion.identity);
+				}
+			}
+		} else if (manager.level == 2) {
+			var christmas = current.transform.FindChild ("CollectablesSpaces"); // get the christmas collectible spaces
+
+			var rand = Random.Range (0, christmas.childCount) / 2;
+
+			var uniquePos = generateNRandom (rand);
+			foreach (int i in uniquePos) {
+				var r = Random.Range (0, christmasCollectables.Length);
+				Instantiate (christmasCollectables [r], christmas.GetChild (i).position, Quaternion.identity);
+			}
+
+			var cScenery = current.transform.FindChild ("ChristmasScenery");
+			rand = Random.Range (0, 2); // determine if to add rocks
+			if (rand == 1) {
+				var cRocks = cScenery.GetChild (0).transform;
+				rand = Random.Range (0, cRocks.childCount);
+				uniquePos = generateNRandom (rand);
+				foreach (int i in uniquePos) {
+					var r = Random.Range (0, christmasRocks.Length);
+					Instantiate (christmasRocks [r], cRocks.GetChild (i).position, Quaternion.identity);
+				}
+			}
+
+			rand = Random.Range (0, 2); // determine if to add trees
+			if (rand == 1) {
+				var cTrees = cScenery.GetChild(1).transform;
+				rand = Random.Range (0, cTrees.childCount);
+				uniquePos = generateNRandom (rand);
+				foreach (int i in uniquePos) {
+					var r = Random.Range (0, christmasTrees.Length);
+					Instantiate (christmasTrees [r], cTrees.GetChild (i).position, Quaternion.identity);
+				}
+			}
+
 		}
 
+	}
 
-
-		var fenceSpace = current.transform.GetChild (2);
-		var halloween = current.transform.GetChild (3);
-		var christmas = current.transform.GetChild (4);
-		var cTrees = christmas.transform.GetChild (1);
-		var cRocks = christmas.transform.GetChild (0);
-
-
+	// generates n unique random numbers
+	private HashSet<int> generateNRandom(int n) {
+		HashSet<int> s = new HashSet<int> ();
+		s.Add (Random.Range (0, n));
+		while (s.Count < n) {
+			s.Add (Random.Range (0, n));
+		}
+		return s;
 	}
 	
 	// Update is called once per frame
