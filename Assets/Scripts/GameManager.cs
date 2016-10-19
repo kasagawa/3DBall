@@ -1,8 +1,15 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
 
 public class GameManager : MonoBehaviour {
 	// current level
 	public int level;
+	public Text timerText;
+
+	private float time;
+	private float minutes;
+	private float seconds;
 
 	// the state of the Game
 	public enum GameState{
@@ -23,7 +30,18 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Start() {
-		
+		time = 0;
+		minutes = 0; 
+		seconds = 0;
+		timerText.text = "Time: " + string.Format ("{0:00} : {1:00}", minutes, seconds);
+	}
+
+	void Update(){
+		time += Time.deltaTime;
+		minutes = Mathf.Floor(time / 60); 
+		seconds = time % 60;
+		if(seconds > 59) seconds = 59;
+		timerText.text = "Time: " + string.Format ("{0:00} : {1:00}", minutes, seconds);
 	}
 
 	private void changeLevel() {
