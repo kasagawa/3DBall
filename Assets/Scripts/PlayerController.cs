@@ -5,11 +5,10 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 
 	public float speed;
-	private float storedSpeed;
+	public float storedSpeed;
 	private Vector3 dir;
 
 	public int pickUpCount;
-	public Text onYourMarkText;
 
 	private Rigidbody rb;
 	private int count;
@@ -37,23 +36,7 @@ public class PlayerController : MonoBehaviour {
 		count = 0;
 		storedSpeed = speed;
 		dir = Vector3.forward;
-//		onYourMarkText.text = "";
-//		SetCountText ();
-//		StartCoroutine(OnYourMark());
 	}
-
-	//wait for 5 seconds to start the game & display starting text
-//	IEnumerator OnYourMark() {
-//		this.speed = 0;
-//		onYourMarkText.text = "On Your Mark";
-//		yield return new WaitForSeconds (2);
-//		onYourMarkText.text = "Get Set";
-//		yield return new WaitForSeconds (2);
-//		onYourMarkText.text = "Go!!";
-//		yield return new WaitForSeconds (1);
-//		onYourMarkText.text = "";
-//		this.speed = storedSpeed;
-//	}
 
 	//controls the movement of the ball
 	void Update() {
