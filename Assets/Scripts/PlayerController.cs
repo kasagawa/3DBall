@@ -87,6 +87,7 @@ public class PlayerController : MonoBehaviour {
 		}
 		else if (other.gameObject.CompareTag("EasterEgg")){
 			CollectObject (other);
+			GameManager.Instance.addPoints ();
 			SetCountText ();
 		}
 		else if (other.gameObject.CompareTag("Jackolantern")){

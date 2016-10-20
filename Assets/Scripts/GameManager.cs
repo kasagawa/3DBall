@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour {
 	private float minutes;
 	private float seconds;
 
+	public float maxPoints = 10f;
+	public float currPoints = 0f;
+
 	// the state of the Game
 	public enum GameState{
 		Playing, Ended_Lost, Ended_Won
@@ -59,8 +62,13 @@ public class GameManager : MonoBehaviour {
 		} 
 		//if the player falls too far, lose the game
 		else {
-			LooseGame ();
+			LoseGame ();
 		}
+	}
+
+	public void addPoints () {
+		currPoints += 1f;
+		ProgressBar.Instance.setProgressBar ();
 	}
 
 	public void changeLevel() {
@@ -83,7 +91,7 @@ public class GameManager : MonoBehaviour {
 
 
 	//Call this method if you fall off the platform
-	public void LooseGame() {
+	public void LoseGame() {
 		player.speed = 0;
 		loseText.text = "You Lose";
 		quitText.text = "Press Esc To Play Again";

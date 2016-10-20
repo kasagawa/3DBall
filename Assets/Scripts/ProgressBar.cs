@@ -3,9 +3,6 @@ using System.Collections;
 
 public class ProgressBar : MonoBehaviour {
 
-	public float maxPoints = 100f;
-	public float currPoints = 0f;
-
 	public GameObject progressBar;
 
 	//coordinates of the progress bar 
@@ -30,23 +27,14 @@ public class ProgressBar : MonoBehaviour {
 		barY = progressBar.transform.localScale.y;
 		barX = progressBar.transform.localScale.x;
 		progressBar.transform.localScale = new Vector3 (0, barY, barX);
-
-		InvokeRepeating ("addPoints", 1f, 1f);
 	}
-
-	public void addPoints () {
-		Debug.Log ("inside add points");
-		currPoints += 1f;
+		
+	// Moves the bar to match the player's progress in collecting objects
+	public void setProgressBar () {
 
 		//calcProgress is the percentage of completion -- num between 0 and 1
-		float calcProgress = currPoints / maxPoints;
+		float progress = GameManager.Instance.currPoints / GameManager.Instance.maxPoints;
 
-		setProgressBar (calcProgress);
-
-	}
-
-	// Moves the bar to match the player's progress in collecting objects
-	public void setProgressBar (float progress){
 		barY = progressBar.transform.localScale.y;
 		barX = progressBar.transform.localScale.x;
 
