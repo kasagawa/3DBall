@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Plane : MonoBehaviour {
 
-	private static float destroyDelay = 10;
+	private static float destroyDelay = 1.5f;
 
 	public bool leftAttach = false;
 

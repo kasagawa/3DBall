@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour {
 
 	public Text timerText;
 	public Text loseText;
+	public Text quitText;
 
 	private float time;
 	private float minutes;
@@ -43,6 +44,8 @@ public class GameManager : MonoBehaviour {
 		minutes = 0; 
 		seconds = 0;
 		timerText.text = "Time: " + string.Format ("{0:00} : {1:00}", minutes, seconds);
+		loseText.text = "";
+		quitText.text = "";
 	}
 
 	void Update(){
@@ -83,6 +86,7 @@ public class GameManager : MonoBehaviour {
 	public void LooseGame() {
 		player.speed = 0;
 		loseText.text = "You Lose";
+		quitText.text = "Press Esc To Play Again";
 		if (Input.GetKeyDown(KeyCode.Escape)) {
 			SceneManager.LoadScene ("StartScene");
 		}

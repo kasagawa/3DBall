@@ -34,10 +34,10 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Start() {
-		dir = Vector3.zero;
 		rb = GetComponent<Rigidbody>();
 		count = 0;
 		storedSpeed = speed;
+		dir = Vector3.forward;
 //		onYourMarkText.text = "";
 //		SetCountText ();
 //		StartCoroutine(OnYourMark());
@@ -74,12 +74,7 @@ public class PlayerController : MonoBehaviour {
 			} else {
 				dir = Vector3.left;
 			}
-		} else if (plane.transform.GetComponent<Plane> ().leftAttach && plane.CompareTag ("TopPlane")) {
-			dir = Vector3.left;
-		} else {
-			dir = Vector3.forward;
 		}
-
 		float amountToMove = speed * Time.deltaTime;
 //		transform.Rotate (-dir * amountToMove);
 		transform.Translate (dir * amountToMove);

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class PlaneManager : MonoBehaviour {
 
 	// amount of planes to create at the start of the game
-	private static int planesToCreate = 100;
+	private static int planesToCreate = 20;
 
 	// the game manager
 	private GameManager manager;
