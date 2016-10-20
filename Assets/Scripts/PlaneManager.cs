@@ -89,13 +89,18 @@ public class PlaneManager : MonoBehaviour {
 		GameObject tmp = leftPlanes.Peek();
 		if (rand == 0) {
 			tmp = leftPlanes.Pop ();
+			if (current != null) 
+				current.transform.GetComponent<Plane>().leftAttach = true;
 		} else if (rand == 1) {
 			tmp = topPlanes.Pop ();
+			if (current != null)
+				current.transform.GetComponent<Plane>().leftAttach = false;
 		}
 
 		tmp.transform.GetChild(0).GetComponent<MeshRenderer>().sharedMaterial = materials[manager.level];
 		tmp.SetActive (true);
 		tmp.transform.position = current.transform.GetChild (0).transform.GetChild (rand).position;
+
 		current = tmp;
 
 		SpawnObjects ();

@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour {
-	private static float counterClockwise = -5.0f;
 
 	public float speed;
 	private float storedSpeed;
@@ -16,7 +15,7 @@ public class PlayerController : MonoBehaviour {
 	private Rigidbody rb;
 	private int count;
 
-	private GameObject plane;
+	public GameObject plane;
 
 	// materials for each level
 	public Material[] materials;
@@ -59,15 +58,25 @@ public class PlayerController : MonoBehaviour {
 
 	//controls the movement of the ball
 	void Update() {
-		if (Input.GetKey (KeyCode.RightArrow)) {
-			if (plane.CompareTag("TopPlane")) {
+		if (plane.CompareTag ("TopPlane")) {
+			if (Input.GetKey (KeyCode.RightArrow)) {
 				dir = Vector3.right;
-			} 
-		} else if (Input.GetKey (KeyCode.LeftArrow)) {
-			if (plane.CompareTag("TopPlane")) {
+			} else if (Input.GetKey (KeyCode.LeftArrow)) {
 				dir = Vector3.left;
-			} 
-		} else if (Input.GetKey(KeyCode.UpArrow) || dir == Vector3.zero) {
+			} else {
+				dir = Vector3.forward;
+			}
+		} else if (plane.CompareTag ("LeftPlane")) {
+			if (Input.GetKey (KeyCode.DownArrow)) {
+				dir = Vector3.back;
+			} else if (Input.GetKey (KeyCode.UpArrow)) {
+				dir = Vector3.forward;
+			} else {
+				dir = Vector3.left;
+			}
+		} else if (plane.transform.GetComponent<Plane> ().leftAttach && plane.CompareTag ("TopPlane")) {
+			dir = Vector3.left;
+		} else {
 			dir = Vector3.forward;
 		}
 

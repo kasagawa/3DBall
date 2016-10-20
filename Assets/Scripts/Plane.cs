@@ -3,7 +3,9 @@ using System.Collections;
 
 public class Plane : MonoBehaviour {
 
-	private static float destroyDelay = 4;
+	private static float destroyDelay = 10;
+
+	public bool leftAttach = false;
 
 	// Use this for initialization
 	void Start () {
