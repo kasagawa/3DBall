@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class PlaneManager : MonoBehaviour {
 
 	// amount of planes to create at the start of the game
-	private static int planesToCreate = 20;
+	private static int planesToCreate = 100;
 
 	// the game manager
 	private GameManager manager;
@@ -31,7 +31,7 @@ public class PlaneManager : MonoBehaviour {
 
 	public GameObject[] christmasRocks;
 
-	public GameObject fence;
+	public GameObject[] fence;
 
 	// a stack of inactive left planes
 	private Stack<GameObject> leftPlanes;
@@ -60,7 +60,7 @@ public class PlaneManager : MonoBehaviour {
 
 		CreatePlanes (planesToCreate);
 
-		for (int i = 0; i < planesToCreate / 2; i++) {
+		for (int i = 0; i < planesToCreate / 10; i++) {
 			SpawnPlane ();
 		}
 	}
@@ -108,6 +108,12 @@ public class PlaneManager : MonoBehaviour {
 
 	// spawns objects on the current plane
 	public void SpawnObjects() {
+		manager.level = 1;
+		Plane plane = current.transform.GetComponent<Plane> ();
+
+		if (plane.objects.Count > 0)
+			return;
+		
 		if (manager.level == 0) {
 			var easter = current.transform.FindChild ("CollectablesSpaces"); // get the easter collectible spaces
 
@@ -116,7 +122,8 @@ public class PlaneManager : MonoBehaviour {
 			var uniquePos = generateNRandom (rand); // generates rand unique random positions
 			foreach (int i in uniquePos) {
 				var r = Random.Range (0, easterCollectables.Length);
-				Instantiate (easterCollectables [r], easter.GetChild (i).position, Quaternion.identity); 
+				var obj = (GameObject)Instantiate (easterCollectables [r], easter.GetChild (i).position, Quaternion.identity); 
+				plane.objects.Push (obj);
 			}
 		} else if (manager.level == 1) {
 			var halloween = current.transform.FindChild ("CollectablesSpaces"); // get the halloween collectible spaces
@@ -126,23 +133,30 @@ public class PlaneManager : MonoBehaviour {
 			var uniquePos = generateNRandom (rand);
 			foreach (int i in uniquePos) {
 				var r = Random.Range (0, halloweenCollectables.Length);
-				Instantiate (halloweenCollectables [r], halloween.GetChild (i).position, Quaternion.identity);
+				var obj = (GameObject)Instantiate (halloweenCollectables [r], halloween.GetChild (i).position, Quaternion.identity);
+				plane.objects.Push (obj);
 			}
 
-			rand = Random.Range (0, 2); // randomly determine if to add a fence
+			rand = Random.Range (0, 3); // randomly determine if to add a fence
 			if (rand == 1) {
 				var fenceSpace = current.transform.FindChild ("FenceSpace");
-				Instantiate (fence, fenceSpace.GetChild (0).position, Quaternion.identity);
+				var f = fence [0];
+				if (current.CompareTag ("TopPlane")) {
+					f = fence [1];
+				}
+				var obj = (GameObject)Instantiate (f, fenceSpace.GetChild (0).position, Quaternion.identity);
+				plane.objects.Push (obj);
 			}
 
-			rand = Random.Range (0, 2); // randomly determine if to add obsticles
+			rand = Random.Range (0, 5); // randomly determine if to add obsticles
 			if (rand == 1) {
 				var hObsticles = current.transform.FindChild ("HalloweenObsticles");
 				rand = Random.Range (0, halloweenObstacles.Length);
 				uniquePos = generateNRandom (rand);
 				foreach (int i in uniquePos) {
 					var r = Random.Range (0, halloweenCollectables.Length);
-					Instantiate (halloweenObstacles [r], hObsticles.GetChild (i).position, Quaternion.identity);
+					var obj = (GameObject)Instantiate (halloweenObstacles [r], hObsticles.GetChild (i).position, Quaternion.identity);
+					plane.objects.Push (obj);
 				}
 			}
 		} else if (manager.level == 2) {
@@ -153,7 +167,8 @@ public class PlaneManager : MonoBehaviour {
 			var uniquePos = generateNRandom (rand);
 			foreach (int i in uniquePos) {
 				var r = Random.Range (0, christmasCollectables.Length);
-				Instantiate (christmasCollectables [r], christmas.GetChild (i).position, Quaternion.identity);
+				var obj = (GameObject)Instantiate (christmasCollectables [r], christmas.GetChild (i).position, Quaternion.identity);
+				plane.objects.Push (obj);
 			}
 
 			var cScenery = current.transform.FindChild ("ChristmasScenery");
@@ -164,7 +179,8 @@ public class PlaneManager : MonoBehaviour {
 				uniquePos = generateNRandom (rand);
 				foreach (int i in uniquePos) {
 					var r = Random.Range (0, christmasRocks.Length);
-					Instantiate (christmasRocks [r], cRocks.GetChild (i).position, Quaternion.identity);
+					var obj = (GameObject)Instantiate (christmasRocks [r], cRocks.GetChild (i).position, Quaternion.identity);
+					plane.objects.Push (obj);
 				}
 			}
 
@@ -175,7 +191,8 @@ public class PlaneManager : MonoBehaviour {
 				uniquePos = generateNRandom (rand);
 				foreach (int i in uniquePos) {
 					var r = Random.Range (0, christmasTrees.Length);
-					Instantiate (christmasTrees [r], cTrees.GetChild (i).position, Quaternion.identity);
+					var obj = (GameObject)Instantiate (christmasTrees [r], cTrees.GetChild (i).position, Quaternion.identity);
+					plane.objects.Push (obj);
 				}
 			}
 

@@ -40,25 +40,36 @@ public class PlayerController : MonoBehaviour {
 
 	//controls the movement of the ball
 	void Update() {
-		if (plane.CompareTag ("TopPlane")) {
-			if (Input.GetKey (KeyCode.RightArrow)) {
-				dir = Vector3.right;
-			} else if (Input.GetKey (KeyCode.LeftArrow)) {
-				dir = Vector3.left;
-			} else {
-				dir = Vector3.forward;
-			}
-		} else if (plane.CompareTag ("LeftPlane")) {
-			if (Input.GetKey (KeyCode.DownArrow)) {
-				dir = Vector3.back;
-			} else if (Input.GetKey (KeyCode.UpArrow)) {
-				dir = Vector3.forward;
-			} else {
-				dir = Vector3.left;
-			}
-		}
+//		if (plane.CompareTag ("TopPlane")) {
+//			if (Input.GetKey (KeyCode.RightArrow)) {
+//				dir = Vector3.right;
+//			} else if (Input.GetKey (KeyCode.LeftArrow)) {
+//				dir = Vector3.left;
+//			} else {
+//				dir = Vector3.forward;
+//			}
+//		} else if (plane.CompareTag ("LeftPlane")) {
+//			if (Input.GetKey (KeyCode.DownArrow)) {
+//				dir = Vector3.back;
+//			} else if (Input.GetKey (KeyCode.UpArrow)) {
+//				dir = Vector3.forward;
+//			} else {
+//				dir = Vector3.left;
+//			}
+//		}
+
+		if (Input.GetKey (KeyCode.DownArrow)) {
+			dir = Vector3.back;
+		} else if (Input.GetKey (KeyCode.UpArrow)) {
+			dir = Vector3.forward;
+		} else if (Input.GetKey (KeyCode.RightArrow)) {
+			dir = Vector3.right;
+		} else if (Input.GetKey (KeyCode.LeftArrow)) {
+			dir = Vector3.left;
+		} else
+			return;
+
 		float amountToMove = speed * Time.deltaTime;
-//		transform.Rotate (-dir * amountToMove);
 		transform.Translate (dir * amountToMove);
 	}
 		
@@ -89,9 +100,14 @@ public class PlayerController : MonoBehaviour {
 		//if hit skeleton -- lose points?!
 	}
 
+	void OnCollisionExit(Collision c) {
+		if (c.gameObject.CompareTag("Start")) {
+			Destroy (c.gameObject);
+		}
+	}
 
 	void CollectObject (Collider other){
-		Destroy (other.gameObject);
+		other.gameObject.SetActive(false);
 		count++;
 	}
 }

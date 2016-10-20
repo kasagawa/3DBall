@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour {
 	private float seconds;
 	private bool CRrunning;
 
-	public float maxPoints = 10f;
+	public float maxPoints = 20f;
 	public float currPoints = 0f;
 
 	// the state of the Game
@@ -80,7 +80,12 @@ public class GameManager : MonoBehaviour {
 				seconds = time % 60;
 				if (seconds > 59)
 					seconds = 59;
-				timerText.text = "Time: " + string.Format ("{0:00} : {1:00}", minutes, seconds);
+				timerText.text = "Time: " + string.Format ("{0:00} : {1:00}", minutes, seconds); 
+
+				if (currPoints == maxPoints) {
+					currPoints = 0f;
+					changeLevel ();
+				}
 			} 
 			//if the player falls too far, lose the game
 			else {
