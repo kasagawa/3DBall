@@ -35,19 +35,19 @@ public class GameManager : MonoBehaviour {
 	void Start() {
 		player = PlayerController.Instance;
 
-		time = 0;
-		minutes = 0; 
-		seconds = 0;
-		timerText.text = "Time: " + string.Format ("{0:00} : {1:00}", minutes, seconds);
+//		time = 0;
+//		minutes = 0; 
+//		seconds = 0;
+//		timerText.text = "Time: " + string.Format ("{0:00} : {1:00}", minutes, seconds);
 	}
-
-	void Update(){
-		time += Time.deltaTime;
-		minutes = Mathf.Floor(time / 60); 
-		seconds = time % 60;
-		if(seconds > 59) seconds = 59;
-		timerText.text = "Time: " + string.Format ("{0:00} : {1:00}", minutes, seconds);
-	}
+//
+//	void Update(){
+//		time += Time.deltaTime;
+//		minutes = Mathf.Floor(time / 60); 
+//		seconds = time % 60;
+//		if(seconds > 59) seconds = 59;
+//		timerText.text = "Time: " + string.Format ("{0:00} : {1:00}", minutes, seconds);
+//	}
 
 	public void changeLevel() {
 		if (level == 2) {

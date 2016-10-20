@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour {
+	private static float counterClockwise = -5.0f;
+
 	public float speed;
 	private float storedSpeed;
 	private Vector3 dir;
@@ -13,6 +15,8 @@ public class PlayerController : MonoBehaviour {
 
 	private Rigidbody rb;
 	private int count;
+
+	private GameObject plane;
 
 	// materials for each level
 	public Material[] materials;
@@ -35,74 +39,81 @@ public class PlayerController : MonoBehaviour {
 		rb = GetComponent<Rigidbody>();
 		count = 0;
 		storedSpeed = speed;
-		onYourMarkText.text = "";
+//		onYourMarkText.text = "";
 //		SetCountText ();
-		StartCoroutine(OnYourMark());
+//		StartCoroutine(OnYourMark());
 	}
 
 	//wait for 5 seconds to start the game & display starting text
-	IEnumerator OnYourMark() {
-		this.speed = 0;
-		onYourMarkText.text = "On Your Mark";
-		yield return new WaitForSeconds (2);
-		onYourMarkText.text = "Get Set";
-		yield return new WaitForSeconds (2);
-		onYourMarkText.text = "Go!!";
-		yield return new WaitForSeconds (1);
-		onYourMarkText.text = "";
-		this.speed = storedSpeed;
-	}
+//	IEnumerator OnYourMark() {
+//		this.speed = 0;
+//		onYourMarkText.text = "On Your Mark";
+//		yield return new WaitForSeconds (2);
+//		onYourMarkText.text = "Get Set";
+//		yield return new WaitForSeconds (2);
+//		onYourMarkText.text = "Go!!";
+//		yield return new WaitForSeconds (1);
+//		onYourMarkText.text = "";
+//		this.speed = storedSpeed;
+//	}
 
 	//controls the movement of the ball
 	void Update() {
 		if (Input.GetKey (KeyCode.RightArrow)) {
-			dir = Vector3.right;
+			if (plane.CompareTag("TopPlane")) {
+				dir = Vector3.right;
+			} 
 		} else if (Input.GetKey (KeyCode.LeftArrow)) {
-			dir = Vector3.left;
-		} else {
+			if (plane.CompareTag("TopPlane")) {
+				dir = Vector3.left;
+			} 
+		} else if (Input.GetKey(KeyCode.UpArrow) || dir == Vector3.zero) {
 			dir = Vector3.forward;
 		}
 
 		float amountToMove = speed * Time.deltaTime;
-		//		transform.Rotate (dir * amountToMove);
+//		transform.Rotate (-dir * amountToMove);
 		transform.Translate (dir * amountToMove);
 	}
-//		
-//	//****we may want to move this to another class!****
-//	void OnTriggerEnter (Collider other){
-//		if (other.gameObject.CompareTag("EasterEgg")){
-//			CollectObject (other);
-//			SetCountText ();
-//		}
-//		if (other.gameObject.CompareTag("Jackolantern")){
-//			CollectObject (other);
-//			SetCountText ();
-//		}
-//		if (other.gameObject.CompareTag("Ornament")){
-//			CollectObject (other);
-//			SetCountText ();
-//		}
-//		if (other.gameObject.CompareTag("Present")){
-//			CollectObject (other);
-//			SetCountText ();
-//		}
-//		if (other.gameObject.CompareTag("CandyCane")){
-//			CollectObject (other);
-//			SetCountText ();
-//		}
-//		if (other.gameObject.CompareTag("TeddyBear")){
-//			CollectObject (other);
-//			SetCountText ();
-//		}
-//		//if hit skeleton -- lose points?!
-//	}
-//
-//	void SetCountText (){
-//		countText.text = "Count: " + count.ToString ();
-//	}
-//
-//	void CollectObject (Collider other){
-//		Destroy (other.gameObject);
-//		count++;
-//	}
+		
+	//****we may want to move this to another class!****
+	void OnTriggerEnter (Collider other){
+		if (other.gameObject.CompareTag ("LeftPlane") || other.gameObject.CompareTag("TopPlane")) {
+			plane = other.gameObject;
+		}
+		else if (other.gameObject.CompareTag("EasterEgg")){
+			CollectObject (other);
+			SetCountText ();
+		}
+		else if (other.gameObject.CompareTag("Jackolantern")){
+			CollectObject (other);
+			SetCountText ();
+		}
+		else if (other.gameObject.CompareTag("Ornament")){
+			CollectObject (other);
+			SetCountText ();
+		}
+		else if (other.gameObject.CompareTag("Present")){
+			CollectObject (other);
+			SetCountText ();
+		}
+		else if (other.gameObject.CompareTag("CandyCane")){
+			CollectObject (other);
+			SetCountText ();
+		}
+		else if (other.gameObject.CompareTag("TeddyBear")){
+			CollectObject (other);
+			SetCountText ();
+		}
+		//if hit skeleton -- lose points?!
+	}
+
+	void SetCountText (){
+		countText.text = "Count: " + count.ToString ();
+	}
+
+	void CollectObject (Collider other){
+		Destroy (other.gameObject);
+		count++;
+	}
 }
