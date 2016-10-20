@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 dir;
 
 	public int pickUpCount;
-	public Text countText;
 	public Text onYourMarkText;
 
 	private Rigidbody rb;
@@ -88,34 +87,25 @@ public class PlayerController : MonoBehaviour {
 		else if (other.gameObject.CompareTag("EasterEgg")){
 			CollectObject (other);
 			GameManager.Instance.addPoints ();
-			SetCountText ();
 		}
 		else if (other.gameObject.CompareTag("Jackolantern")){
 			CollectObject (other);
-			SetCountText ();
 		}
 		else if (other.gameObject.CompareTag("Ornament")){
 			CollectObject (other);
-			SetCountText ();
 		}
 		else if (other.gameObject.CompareTag("Present")){
 			CollectObject (other);
-			SetCountText ();
 		}
 		else if (other.gameObject.CompareTag("CandyCane")){
 			CollectObject (other);
-			SetCountText ();
 		}
 		else if (other.gameObject.CompareTag("TeddyBear")){
 			CollectObject (other);
-			SetCountText ();
 		}
 		//if hit skeleton -- lose points?!
 	}
 
-	void SetCountText (){
-		countText.text = "Count: " + count.ToString ();
-	}
 
 	void CollectObject (Collider other){
 		Destroy (other.gameObject);
