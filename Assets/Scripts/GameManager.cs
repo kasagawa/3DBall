@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 	// current level
@@ -9,6 +10,7 @@ public class GameManager : MonoBehaviour {
 	private PlayerController player;
 
 	public Text timerText;
+	public Text loseText;
 
 	private float time;
 	private float minutes;
@@ -21,6 +23,8 @@ public class GameManager : MonoBehaviour {
 
 	// the instance of the current GameManager
 	private static GameManager instance;
+
+	public static GameState State = GameState.Playing;
 
 	// static property of a GameManager 
 	public static GameManager Instance {
@@ -42,11 +46,18 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Update(){
-		time += Time.deltaTime;
-		minutes = Mathf.Floor(time / 60); 
-		seconds = time % 60;
-		if(seconds > 59) seconds = 59;
-		timerText.text = "Time: " + string.Format ("{0:00} : {1:00}", minutes, seconds);
+		if (player.transform.position.y > -5) {
+			time += Time.deltaTime;
+			minutes = Mathf.Floor (time / 60); 
+			seconds = time % 60;
+			if (seconds > 59)
+				seconds = 59;
+			timerText.text = "Time: " + string.Format ("{0:00} : {1:00}", minutes, seconds);
+		} 
+		//if the player falls too far, lose the game
+		else {
+			LooseGame ();
+		}
 	}
 
 	public void changeLevel() {
@@ -67,8 +78,15 @@ public class GameManager : MonoBehaviour {
 		
 	}
 
+
+	//Call this method if you fall off the platform
 	public void LooseGame() {
-		
+		player.speed = 0;
+		loseText.text = "You Lose";
+		if (Input.GetKeyDown(KeyCode.Escape)) {
+			SceneManager.LoadScene ("StartScene");
+		}
+		State = GameState.Ended_Lost;
 	}
 }
 
