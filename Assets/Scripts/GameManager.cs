@@ -113,8 +113,11 @@ public class GameManager : MonoBehaviour {
 		
 	}
 
+	//Takes you to the final scene if you won
 	public void WinGame() {
-		
+		player.speed = 0;
+		State = GameState.Ended_Won;
+		SceneManager.LoadScene ("WinningScene");
 	}
 
 

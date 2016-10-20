@@ -8,5 +8,4 @@ public class Rotator : MonoBehaviour {
 		transform.Rotate (new Vector3 (45, 45, 45) * Time.deltaTime);
 	}
 }
-
-//Old rotation: 15, 30, 45
+	

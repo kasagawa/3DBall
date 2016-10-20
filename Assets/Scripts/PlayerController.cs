@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	//controls the movement of the ball
-	void Update() {
+//	void Update() {
 //		if (plane.CompareTag ("TopPlane")) {
 //			if (Input.GetKey (KeyCode.RightArrow)) {
 //				dir = Vector3.right;
@@ -58,20 +58,30 @@ public class PlayerController : MonoBehaviour {
 //			}
 //		}
 
-		if (Input.GetKey (KeyCode.DownArrow)) {
-			dir = Vector3.back;
-		} else if (Input.GetKey (KeyCode.UpArrow)) {
-			dir = Vector3.forward;
-		} else if (Input.GetKey (KeyCode.RightArrow)) {
-			dir = Vector3.right;
-		} else if (Input.GetKey (KeyCode.LeftArrow)) {
-			dir = Vector3.left;
-		} else
-			return;
+//		if (Input.GetKey (KeyCode.DownArrow)) {
+//			dir = Vector3.back;
+//		} else if (Input.GetKey (KeyCode.UpArrow)) {
+//			dir = Vector3.forward;
+//		} else if (Input.GetKey (KeyCode.RightArrow)) {
+//			dir = Vector3.right;
+//		} else if (Input.GetKey (KeyCode.LeftArrow)) {
+//			dir = Vector3.left;
+//		} else
+//			return;
+//
+//		float amountToMove = speed * Time.deltaTime;
+//		transform.Translate (dir * amountToMove);
+//	}
+		
+	//controls the movement of the ball
+		void FixedUpdate () {
+			float moveHorizontal = Input.GetAxis ("Horizontal");
+			float moveVertical = Input.GetAxis ("Vertical");
 
-		float amountToMove = speed * Time.deltaTime;
-		transform.Translate (dir * amountToMove);
-	}
+
+			Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
+			rb.AddForce (movement * speed);
+		}
 		
 	//****we may want to move this to another class!****
 	void OnTriggerEnter (Collider other){
