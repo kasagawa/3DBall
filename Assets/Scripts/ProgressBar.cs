@@ -5,6 +5,7 @@ using System.Collections;
 public class ProgressBar : MonoBehaviour {
 
 	public GameObject progressBar;
+	public GameObject EasterEgg, Jackolantern;
 
 	//coordinates of the progress bar 
 	float barY,barX;
@@ -28,6 +29,9 @@ public class ProgressBar : MonoBehaviour {
 		barY = progressBar.transform.localScale.y;
 		barX = progressBar.transform.localScale.x;
 		progressBar.transform.localScale = new Vector3 (0, barY, barX);
+
+		EasterEgg.SetActive (true);
+		Jackolantern.SetActive (false);
 	}
 
 	// Moves the bar to match the player's progress in collecting objects
@@ -49,12 +53,16 @@ public class ProgressBar : MonoBehaviour {
 		Color32 red = new Color32 (229, 15, 15, 255);
 		Color32 green = new Color32 (135, 216, 98, 255);
 
-
+		//change the color of the progress bar 
 		if (GameManager.Instance.level == 1) {
 			Image progressImg = GameObject.Find("Progress").GetComponent<Image>();
 			progressImg.color = orange;
 			Image background = GameObject.Find("Background").GetComponent<Image>();
 			background.color = grey;
+
+			//change the image next to progress bar
+			EasterEgg.SetActive (false);
+			Jackolantern.SetActive (true);
 		}
 
 		else if (GameManager.Instance.level == 2) {
