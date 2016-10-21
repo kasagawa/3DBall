@@ -60,7 +60,7 @@ public class PlaneManager : MonoBehaviour {
 
 		CreatePlanes (planesToCreate);
 
-		for (int i = 0; i < planesToCreate / 10; i++) {
+		for (int i = 0; i < planesToCreate / 20; i++) {
 			SpawnPlane ();
 		}
 	}
@@ -116,9 +116,9 @@ public class PlaneManager : MonoBehaviour {
 		if (manager.level == 0) {
 			var easter = current.transform.FindChild ("CollectablesSpaces"); // get the easter collectible spaces
 
-			var rand = Random.Range (0, easter.childCount) / 2; // generate random amount of collectibles to generate
+			var rand = Random.Range (0, easter.childCount/3); // generate random amount of collectibles to generate
 
-			var uniquePos = generateNRandom (rand); // generates rand unique random positions
+			var uniquePos = generateNRandom (easter.childCount, rand); // generates rand unique random positions
 			foreach (int i in uniquePos) {
 				var r = Random.Range (0, easterCollectables.Length);
 				var obj = (GameObject)Instantiate (easterCollectables [r], easter.GetChild (i).position, Quaternion.identity); 
@@ -127,9 +127,9 @@ public class PlaneManager : MonoBehaviour {
 		} else if (manager.level == 1) {
 			var halloween = current.transform.FindChild ("CollectablesSpaces"); // get the halloween collectible spaces
 
-			var rand = Random.Range (0, halloween.childCount) / 2;
+			var rand = Random.Range (0, halloween.childCount/3);
 
-			var uniquePos = generateNRandom (rand);
+			var uniquePos = generateNRandom (halloween.childCount, rand);
 			foreach (int i in uniquePos) {
 				var r = Random.Range (0, halloweenCollectables.Length);
 				var obj = (GameObject)Instantiate (halloweenCollectables [r], halloween.GetChild (i).position, Quaternion.identity);
@@ -150,8 +150,8 @@ public class PlaneManager : MonoBehaviour {
 			rand = Random.Range (0, 5); // randomly determine if to add obsticles
 			if (rand == 1) {
 				var hObsticles = current.transform.FindChild ("HalloweenObsticles");
-				rand = Random.Range (0, halloweenObstacles.Length);
-				uniquePos = generateNRandom (rand);
+				rand = Random.Range (0, hObsticles.childCount);
+				uniquePos = generateNRandom (hObsticles.childCount, rand);
 				foreach (int i in uniquePos) {
 					var r = Random.Range (0, halloweenCollectables.Length);
 					var obj = (GameObject)Instantiate (halloweenObstacles [r], hObsticles.GetChild (i).position, Quaternion.identity);
@@ -161,9 +161,9 @@ public class PlaneManager : MonoBehaviour {
 		} else if (manager.level == 2) {
 			var christmas = current.transform.FindChild ("CollectablesSpaces"); // get the christmas collectible spaces
 
-			var rand = Random.Range (0, christmas.childCount) / 2;
+			var rand = Random.Range (0, christmas.childCount/3);
 
-			var uniquePos = generateNRandom (rand);
+			var uniquePos = generateNRandom (christmas.childCount, rand);
 			foreach (int i in uniquePos) {
 				var r = Random.Range (0, christmasCollectables.Length);
 				var obj = (GameObject)Instantiate (christmasCollectables [r], christmas.GetChild (i).position, Quaternion.identity);
@@ -175,7 +175,7 @@ public class PlaneManager : MonoBehaviour {
 			if (rand == 1) {
 				var cRocks = cScenery.GetChild (0).transform;
 				rand = Random.Range (0, cRocks.childCount);
-				uniquePos = generateNRandom (rand);
+				uniquePos = generateNRandom (cRocks.childCount, rand);
 				foreach (int i in uniquePos) {
 					var r = Random.Range (0, christmasRocks.Length);
 					var obj = (GameObject)Instantiate (christmasRocks [r], cRocks.GetChild (i).position, Quaternion.identity);
@@ -187,7 +187,7 @@ public class PlaneManager : MonoBehaviour {
 			if (rand == 1) {
 				var cTrees = cScenery.GetChild(1).transform;
 				rand = Random.Range (0, cTrees.childCount);
-				uniquePos = generateNRandom (rand);
+				uniquePos = generateNRandom (cTrees.childCount, rand);
 				foreach (int i in uniquePos) {
 					var r = Random.Range (0, christmasTrees.Length);
 					var obj = (GameObject)Instantiate (christmasTrees [r], cTrees.GetChild (i).position, Quaternion.identity);
@@ -200,9 +200,9 @@ public class PlaneManager : MonoBehaviour {
 	}
 
 	// generates n unique random numbers
-	private HashSet<int> generateNRandom(int n) {
+	private HashSet<int> generateNRandom(int max, int n) {
 		HashSet<int> s = new HashSet<int> ();
-		s.Add (Random.Range (0, n));
+		s.Add (Random.Range (0, max));
 		while (s.Count < n) {
 			s.Add (Random.Range (0, n));
 		}

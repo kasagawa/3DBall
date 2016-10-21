@@ -34,54 +34,64 @@ public class PlayerController : MonoBehaviour {
 	void Start() {
 		rb = GetComponent<Rigidbody>();
 		storedSpeed = speed;
-		dir = Vector3.forward;
+		dir = Vector3.zero;
 		manager = GameManager.Instance;
 	}
 
 	//controls the movement of the ball
-//	void Update() {
-//		if (plane.CompareTag ("TopPlane")) {
-//			if (Input.GetKey (KeyCode.RightArrow)) {
-//				dir = Vector3.right;
-//			} else if (Input.GetKey (KeyCode.LeftArrow)) {
-//				dir = Vector3.left;
-//			} else {
-//				dir = Vector3.forward;
-//			}
-//		} else if (plane.CompareTag ("LeftPlane")) {
+	void Update() {
+//		if (Input.GetKey (KeyCode.LeftArrow)) {
+//			dir = Vector3.left;
+//		} else if (Input.GetKey (KeyCode.RightArrow)) {
+//			dir = Vector3.right;
+//		} else {
+//			dir = Vector3.forward;
+//		}
+		if (plane.CompareTag ("TopPlane")) {
+			if (Input.GetKey (KeyCode.RightArrow)) {
+				dir = Vector3.right;
+			} else if (Input.GetKey (KeyCode.LeftArrow)) {
+				dir = Vector3.left;
+			} else {
+				dir = Vector3.forward;
+			}
+		} else if (plane.CompareTag ("LeftPlane")) {
+			if (Input.GetKey (KeyCode.LeftArrow)) {
+				dir = Vector3.left;
+			} else if (Input.GetKey (KeyCode.DownArrow)) {
+				dir = Vector3.back;
+			} else {
+				dir = Vector3.forward;
+			}
+		} else
+			return;
+//
+//		if (plane.CompareTag ("WinningPlane")) {
 //			if (Input.GetKey (KeyCode.DownArrow)) {
 //				dir = Vector3.back;
 //			} else if (Input.GetKey (KeyCode.UpArrow)) {
 //				dir = Vector3.forward;
-//			} else {
+//			} else if (Input.GetKey (KeyCode.RightArrow)) {
+//				dir = Vector3.right;
+//			} else if (Input.GetKey (KeyCode.LeftArrow)) {
 //				dir = Vector3.left;
-//			}
-//		}
-
-//		if (Input.GetKey (KeyCode.DownArrow)) {
-//			dir = Vector3.back;
-//		} else if (Input.GetKey (KeyCode.UpArrow)) {
-//			dir = Vector3.forward;
-//		} else if (Input.GetKey (KeyCode.RightArrow)) {
-//			dir = Vector3.right;
-//		} else if (Input.GetKey (KeyCode.LeftArrow)) {
-//			dir = Vector3.left;
-//		} else
-//			return;
-//
-//		float amountToMove = speed * Time.deltaTime;
-//		transform.Translate (dir * amountToMove);
-//	}
+//			} 
+//		} 
+			
+		float amountToMove = speed * Time.deltaTime;
+		transform.Translate (dir * amountToMove);
+	}
 		
 	//controls the movement of the ball
-		void FixedUpdate () {
+	void FixedUpdate () {
+		if (plane.CompareTag ("WinningPlane")) {
 			float moveHorizontal = Input.GetAxis ("Horizontal");
 			float moveVertical = Input.GetAxis ("Vertical");
 
-
-			Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
-			rb.AddForce (movement * speed);
+			Vector3 dir = new Vector3 (moveHorizontal, 0.0f, moveVertical);
+			rb.AddForce (dir * speed);
 		}
+	}
 		
 	//****we may want to move this to another class!****
 	void OnTriggerEnter (Collider other){
@@ -114,8 +124,10 @@ public class PlayerController : MonoBehaviour {
 		else if (other.gameObject.CompareTag("TeddyBear")&& (manager.level == 2)){
 			CollectObject (other);
 		}
+
 		//if hit skeleton -- lose points?!
 	}
+//
 
 	void OnCollisionExit(Collision c) {
 		if (c.gameObject.CompareTag("Start")) {

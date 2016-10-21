@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Plane : MonoBehaviour {
 
-	private float delay = 1;
+	private float delay = 1.5f;
 
 	public bool leftAttach = false;
 
@@ -15,22 +15,20 @@ public class Plane : MonoBehaviour {
 	void Start () {
 		
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-	
+		if (GameManager.Instance.level == 1) {
+			delay /= 0.25f;
+		}
 	}
 		
-	void OnTriggerExit(Collider other) {
+	void OnTriggerEnter(Collider other) {
 		// everytime a planes exits a trigger with a Player it will spawn another plane
 		if (other.tag == "Player") {
 			PlaneManager.Instance.SpawnPlane ();
 			StartCoroutine (DestroyPlane(delay));
 		}
-	}
-
-	public void enableObjects() {
-		
 	}
 
 	IEnumerator DestroyPlane(float destroyDelay) {
