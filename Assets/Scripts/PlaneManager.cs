@@ -108,7 +108,6 @@ public class PlaneManager : MonoBehaviour {
 
 	// spawns objects on the current plane
 	public void SpawnObjects() {
-		manager.level = 1;
 		Plane plane = current.transform.GetComponent<Plane> ();
 
 		if (plane.objects.Count > 0)

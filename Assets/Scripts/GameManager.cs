@@ -24,7 +24,8 @@ public class GameManager : MonoBehaviour {
 
 
 	//variables that take care of collection count
-	public float maxPoints = 20f;
+
+	public float maxPoints = 2f; //CHANGE
 	public float currPoints = 0f;
 
 	//variables for the audio sources
@@ -113,17 +114,13 @@ public class GameManager : MonoBehaviour {
 
 	public void changeLevel() {
 		if (level == 2) {
-			EndGame();
+			WinGame();
 			return;
 		} 
 		level++;
 		changeMusic ();
 
 		player.GetComponent<MeshRenderer>().sharedMaterial = player.materials[level];
-	}
-
-	public void EndGame() {
-		
 	}
 
 	void changeMusic(){

@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour {
 	private Rigidbody rb;
 
 	public GameObject plane;
+	private GameManager manager;
 
 	// materials for each level
 	public Material[] materials;
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour {
 		rb = GetComponent<Rigidbody>();
 		storedSpeed = speed;
 		dir = Vector3.forward;
+		manager = GameManager.Instance;
 	}
 
 	//controls the movement of the ball
@@ -86,22 +88,30 @@ public class PlayerController : MonoBehaviour {
 		if (other.gameObject.CompareTag ("LeftPlane") || other.gameObject.CompareTag("TopPlane")) {
 			plane = other.gameObject;
 		}
-		else if (other.gameObject.CompareTag("EasterEgg")){
+		else if (other.gameObject.CompareTag("EasterEgg") && (manager.level == 0)){
 			CollectObject (other);
 		}
-		else if (other.gameObject.CompareTag("Jackolantern")){
+		//you've already collected enough for this level so it doesn't add points
+		else if (other.gameObject.CompareTag("EasterEgg") && (manager.level == 1)){
+			other.gameObject.SetActive(false);
+		}
+		else if (other.gameObject.CompareTag("Jackolantern")&& (manager.level == 1)){
 			CollectObject (other);
 		}
-		else if (other.gameObject.CompareTag("Ornament")){
+		//you've already collected enough for this level so it doesn't add points
+		else if (other.gameObject.CompareTag("Jackolantern")&& (manager.level == 2)){
+			other.gameObject.SetActive(false);
+		}
+		else if (other.gameObject.CompareTag("Ornament")&& (manager.level == 2)){
 			CollectObject (other);
 		}
-		else if (other.gameObject.CompareTag("Present")){
+		else if (other.gameObject.CompareTag("Present")&& (manager.level == 2)){
 			CollectObject (other);
 		}
-		else if (other.gameObject.CompareTag("CandyCane")){
+		else if (other.gameObject.CompareTag("CandyCane")&& (manager.level == 2)){
 			CollectObject (other);
 		}
-		else if (other.gameObject.CompareTag("TeddyBear")){
+		else if (other.gameObject.CompareTag("TeddyBear")&& (manager.level == 2)){
 			CollectObject (other);
 		}
 		//if hit skeleton -- lose points?!
