@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class ProgressBar : MonoBehaviour {
@@ -28,7 +29,7 @@ public class ProgressBar : MonoBehaviour {
 		barX = progressBar.transform.localScale.x;
 		progressBar.transform.localScale = new Vector3 (0, barY, barX);
 	}
-		
+
 	// Moves the bar to match the player's progress in collecting objects
 	public void setProgressBar () {
 
@@ -40,4 +41,34 @@ public class ProgressBar : MonoBehaviour {
 
 		progressBar.transform.localScale = new Vector3 (progress, barY, barX);
 	}
+
+	public void changeColor() {
+
+		Color32 grey = new Color32 (71, 72, 74, 255);
+		Color32 orange = new Color32 (255, 148, 0, 255);
+		Color32 red = new Color32 (229, 15, 15, 255);
+		Color32 green = new Color32 (135, 216, 98, 255);
+
+
+		if (GameManager.Instance.level == 1) {
+			Image progressImg = GameObject.Find("Progress").GetComponent<Image>();
+			progressImg.color = orange;
+			Image background = GameObject.Find("Background").GetComponent<Image>();
+			background.color = grey;
+		}
+
+		else if (GameManager.Instance.level == 2) {
+			Image progressImg = GameObject.Find("Progress").GetComponent<Image>();
+			progressImg.color = red;
+			Image background = GameObject.Find("Background").GetComponent<Image>();
+			background.color = green;
+		}
+
+	}
+
+
+
 }
+
+
+

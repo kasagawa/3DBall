@@ -71,19 +71,19 @@ public class GameManager : MonoBehaviour {
 	}
 
 	//wait for 5 seconds to start the game & display starting text
-		IEnumerator OnYourMark() {
-			CRrunning = true;
-			player.speed = 0;
-			onYourMarkText.text = "On Your Mark";
-			yield return new WaitForSeconds (2);
-			onYourMarkText.text = "Get Set";
-			yield return new WaitForSeconds (2);
-			onYourMarkText.text = "Go!!";
-			yield return new WaitForSeconds (1);
-			onYourMarkText.text = "";
-		 	player.speed = player.storedSpeed;
-			CRrunning = false;
-		}
+	IEnumerator OnYourMark() {
+		CRrunning = true;
+		player.speed = 0;
+		onYourMarkText.text = "On Your Mark";
+		yield return new WaitForSeconds (1);
+		onYourMarkText.text = "Get Set";
+		yield return new WaitForSeconds (1);
+		onYourMarkText.text = "Go!!";
+		yield return new WaitForSeconds (1);
+		onYourMarkText.text = "";
+		player.speed = player.storedSpeed;
+		CRrunning = false;
+	}
 
 	void Update(){
 		if (!CRrunning) {
@@ -97,6 +97,8 @@ public class GameManager : MonoBehaviour {
 
 				if (currPoints == maxPoints) {
 					currPoints = 0f;
+					ProgressBar.Instance.setProgressBar ();
+					//					ProgressBar.Instance.changeColor ();
 					changeLevel ();
 				}
 			} 
@@ -118,6 +120,7 @@ public class GameManager : MonoBehaviour {
 			return;
 		} 
 		level++;
+		ProgressBar.Instance.changeColor ();
 		changeMusic ();
 
 		player.GetComponent<MeshRenderer>().sharedMaterial = player.materials[level];
@@ -130,11 +133,11 @@ public class GameManager : MonoBehaviour {
 		} else if (level == 1) {
 			easterMusic.Stop ();
 			halloweenMusic.Play ();
-		currentMusic = halloweenMusic;
+			currentMusic = halloweenMusic;
 		} else {
 			halloweenMusic.Stop ();
 			christmasMusic.Play ();
-		currentMusic = christmasMusic;
+			currentMusic = christmasMusic;
 		}
 	}
 
