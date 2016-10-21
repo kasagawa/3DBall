@@ -9,18 +9,29 @@ public class GameManager : MonoBehaviour {
 
 	private PlayerController player;
 
+
+	//all the text to be displayed on scene
 	public Text timerText;
 	public Text loseText;
 	public Text quitText;
 	public Text onYourMarkText;
 
+	//variables that take care of timing
 	private float time;
 	private float minutes;
 	private float seconds;
 	private bool CRrunning;
 
+
+	//variables that take care of collection count
 	public float maxPoints = 20f;
 	public float currPoints = 0f;
+
+	//variables for the audio sources
+	public AudioSource easterMusic;
+	public AudioSource halloweenMusic;
+	public AudioSource christmasMusic;
+	private AudioSource currentMusic;
 
 	// the state of the Game
 	public enum GameState{
@@ -45,6 +56,7 @@ public class GameManager : MonoBehaviour {
 	void Start() {
 		player = PlayerController.Instance;
 		CRrunning = false;
+		currentMusic = easterMusic;
 
 		time = 0;
 		minutes = 0; 
@@ -74,7 +86,7 @@ public class GameManager : MonoBehaviour {
 
 	void Update(){
 		if (!CRrunning) {
-			if (player.transform.position.y > -10) {
+			if (player.transform.position.y > -50) {
 				time += Time.deltaTime;
 				minutes = Mathf.Floor (time / 60); 
 				seconds = time % 60;
@@ -105,12 +117,28 @@ public class GameManager : MonoBehaviour {
 			return;
 		} 
 		level++;
+		changeMusic ();
 
 		player.GetComponent<MeshRenderer>().sharedMaterial = player.materials[level];
 	}
 
 	public void EndGame() {
 		
+	}
+
+	void changeMusic(){
+		if (level == 0) {
+			easterMusic.Play ();
+			currentMusic = easterMusic;
+		} else if (level == 1) {
+			easterMusic.Stop ();
+			halloweenMusic.Play ();
+		currentMusic = halloweenMusic;
+		} else {
+			halloweenMusic.Stop ();
+			christmasMusic.Play ();
+		currentMusic = christmasMusic;
+		}
 	}
 
 	//Takes you to the final scene if you won
@@ -130,6 +158,7 @@ public class GameManager : MonoBehaviour {
 			SceneManager.LoadScene ("StartScene");
 		}
 		State = GameState.Ended_Lost;
+		currentMusic.Stop ();
 	}
 }
 

@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour {
 	public int pickUpCount;
 
 	private Rigidbody rb;
-	private int count;
 
 	public GameObject plane;
 
@@ -33,7 +32,6 @@ public class PlayerController : MonoBehaviour {
 
 	void Start() {
 		rb = GetComponent<Rigidbody>();
-		count = 0;
 		storedSpeed = speed;
 		dir = Vector3.forward;
 	}
@@ -90,7 +88,6 @@ public class PlayerController : MonoBehaviour {
 		}
 		else if (other.gameObject.CompareTag("EasterEgg")){
 			CollectObject (other);
-			GameManager.Instance.addPoints ();
 		}
 		else if (other.gameObject.CompareTag("Jackolantern")){
 			CollectObject (other);
@@ -118,6 +115,6 @@ public class PlayerController : MonoBehaviour {
 
 	void CollectObject (Collider other){
 		other.gameObject.SetActive(false);
-		count++;
+		GameManager.Instance.addPoints ();
 	}
 }
