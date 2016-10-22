@@ -21,8 +21,10 @@ public class WinningSceneScript : MonoBehaviour {
 	IEnumerator CongratsTextDisplayer(){
 		player.speed = 0;
 		wonText.text = "Congratulations!";
-		yield return new WaitForSeconds (2);
+		yield return new WaitForSeconds (1);
 		wonText.text = "You won!";
+		yield return new WaitForSeconds (1);
+		wonText.text = "Your time was: " + string.Format ("{0:00} : {1:00}", GameManager.finalMin, GameManager.finalSec);;
 		yield return new WaitForSeconds (2);
 		wonText.text = "Feel free to explore this Winter Wonderland.";
 		yield return new WaitForSeconds (2);

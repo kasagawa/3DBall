@@ -17,9 +17,8 @@ public class GameManager : MonoBehaviour {
 	public Text onYourMarkText;
 
 	//variables that take care of timing
-	private float time;
-	private float minutes;
-	private float seconds;
+	private float time, minutes, seconds;
+	public static float finalMin, finalSec;
 	private bool CRrunning;
 
 
@@ -71,6 +70,8 @@ public class GameManager : MonoBehaviour {
 		time = 0;
 		minutes = 0; 
 		seconds = 0;
+		finalMin = 0;
+		finalSec = 0;
 		timerText.text = "Time: " + string.Format ("{0:00} : {1:00}", minutes, seconds);
 		loseText.text = "";
 		quitText.text = "";
@@ -219,6 +220,9 @@ public class GameManager : MonoBehaviour {
 	//Takes you to the final scene if you won
 	public void WinGame() {
 		player.speed = 0;
+		finalMin = minutes;
+		finalSec = seconds;
+
 		State = GameState.Ended_Won;
 		SceneManager.LoadScene ("WinningScene");
 	}
