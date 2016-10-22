@@ -47,24 +47,24 @@ public class PlayerController : MonoBehaviour {
 //		} else {
 //			dir = Vector3.forward;
 //		}
-		if (plane.CompareTag ("TopPlane")) {
-			if (Input.GetKey (KeyCode.RightArrow)) {
-				dir = Vector3.right;
-			} else if (Input.GetKey (KeyCode.LeftArrow)) {
-				dir = Vector3.left;
-			} else {
-				dir = Vector3.forward;
-			}
-		} else if (plane.CompareTag ("LeftPlane")) {
-			if (Input.GetKey (KeyCode.LeftArrow)) {
-				dir = Vector3.left;
-			} else if (Input.GetKey (KeyCode.DownArrow)) {
-				dir = Vector3.back;
-			} else {
-				dir = Vector3.forward;
-			}
-		} else
-			return;
+//		if (plane.CompareTag ("TopPlane")) {
+//			if (Input.GetKey (KeyCode.RightArrow)) {
+//				dir = Vector3.right;
+//			} else if (Input.GetKey (KeyCode.LeftArrow)) {
+//				dir = Vector3.left;
+//			} else {
+//				dir = Vector3.forward;
+//			}
+//		} else if (plane.CompareTag ("LeftPlane")) {
+//			if (Input.GetKey (KeyCode.LeftArrow)) {
+//				dir = Vector3.left;
+//			} else if (Input.GetKey (KeyCode.DownArrow)) {
+//				dir = Vector3.back;
+//			} else {
+//				dir = Vector3.forward;
+//			}
+//		} else
+//			return;
 //
 //		if (plane.CompareTag ("WinningPlane")) {
 //			if (Input.GetKey (KeyCode.DownArrow)) {
@@ -78,19 +78,36 @@ public class PlayerController : MonoBehaviour {
 //			} 
 //		} 
 			
-		float amountToMove = speed * Time.deltaTime;
-		transform.Translate (dir * amountToMove);
+//		float amountToMove = speed * Time.deltaTime;
+//		transform.Translate (dir * amountToMove);
 	}
 		
 	//controls the movement of the ball
 	void FixedUpdate () {
-		if (plane.CompareTag ("WinningPlane")) {
+		if (plane.CompareTag ("TopPlane")) {
+			if (Input.GetKey (KeyCode.RightArrow)) {
+				rb.velocity = new Vector3(1 * speed, rb.velocity.y);
+			} else if (Input.GetKey (KeyCode.LeftArrow)) {
+				rb.velocity  = new Vector3(-1 * speed, rb.velocity.y);
+			} else {
+				rb.velocity  = new Vector3(0, rb.velocity.y, 1 * speed);
+			}
+		} else if (plane.CompareTag ("LeftPlane")) {
+			if (Input.GetKey (KeyCode.LeftArrow)) {
+				rb.velocity = new Vector3(-1 * speed, rb.velocity.y);
+			} else if (Input.GetKey (KeyCode.DownArrow)) {
+				rb.velocity = new Vector3(0, rb.velocity.y, -1 * speed);
+			} else {
+				rb.velocity = new Vector3(0, rb.velocity.y, 1 * speed);
+			}
+		} else if (plane.CompareTag ("WinningPlane")) {
 			float moveHorizontal = Input.GetAxis ("Horizontal");
 			float moveVertical = Input.GetAxis ("Vertical");
 
-			Vector3 dir = new Vector3 (moveHorizontal, 0.0f, moveVertical);
-			rb.AddForce (dir * speed);
-		}
+			Vector3 mov = new Vector3 (moveHorizontal, 0.0f, moveVertical);
+			rb.AddForce (mov * speed);
+			return;
+		} 
 	}
 		
 	//****we may want to move this to another class!****
@@ -100,6 +117,7 @@ public class PlayerController : MonoBehaviour {
 		}
 		else if (other.gameObject.CompareTag("EasterEgg") && (manager.level == 0)){
 			CollectObject (other);
+			GameManager.Instance.addPoints (other.gameObject.tag);
 		}
 		//you've already collected enough for this level so it doesn't add points
 		else if (other.gameObject.CompareTag("EasterEgg") && (manager.level == 1)){
@@ -107,22 +125,30 @@ public class PlayerController : MonoBehaviour {
 		}
 		else if (other.gameObject.CompareTag("Jackolantern")&& (manager.level == 1)){
 			CollectObject (other);
+			GameManager.Instance.addPoints (other.gameObject.tag);
 		}
 		//you've already collected enough for this level so it doesn't add points
 		else if (other.gameObject.CompareTag("Jackolantern")&& (manager.level == 2)){
 			other.gameObject.SetActive(false);
 		}
-		else if (other.gameObject.CompareTag("Ornament")&& (manager.level == 2)){
-			CollectObject (other);
+		else if (other.gameObject.CompareTag("Skeleton")){
+
 		}
-		else if (other.gameObject.CompareTag("Present")&& (manager.level == 2)){
+		else if (other.gameObject.CompareTag("Ornament")){
 			CollectObject (other);
+			GameManager.Instance.addPoints (other.gameObject.tag);
 		}
-		else if (other.gameObject.CompareTag("CandyCane")&& (manager.level == 2)){
+		else if (other.gameObject.CompareTag("Present")){
 			CollectObject (other);
+			GameManager.Instance.addPoints (other.gameObject.tag);
 		}
-		else if (other.gameObject.CompareTag("TeddyBear")&& (manager.level == 2)){
+		else if (other.gameObject.CompareTag("CandyCane")){
 			CollectObject (other);
+			GameManager.Instance.addPoints (other.gameObject.tag);
+		}
+		else if (other.gameObject.CompareTag("TeddyBear")){
+			CollectObject (other);
+			GameManager.Instance.addPoints (other.gameObject.tag);
 		}
 
 		//if hit skeleton -- lose points?!
@@ -137,6 +163,5 @@ public class PlayerController : MonoBehaviour {
 
 	void CollectObject (Collider other){
 		other.gameObject.SetActive(false);
-		GameManager.Instance.addPoints ();
 	}
 }

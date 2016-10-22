@@ -67,7 +67,6 @@ public class ProgressBar : MonoBehaviour {
 		}
 
 		else if (GameManager.Instance.level == 2) {
-			Debug.Log ("changing color to christmas");
 			//change the color of the progress bar 
 			progressImg.color = red;
 			background.color = green;

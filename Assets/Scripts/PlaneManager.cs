@@ -60,7 +60,7 @@ public class PlaneManager : MonoBehaviour {
 
 		CreatePlanes (planesToCreate);
 
-		for (int i = 0; i < planesToCreate / 20; i++) {
+		for (int i = 0; i < planesToCreate / 25; i++) {
 			SpawnPlane ();
 		}
 	}
@@ -73,8 +73,6 @@ public class PlaneManager : MonoBehaviour {
 			leftPlanes.Peek ().SetActive (false);
 			topPlanes.Peek ().SetActive (false);
 		}
-
-
 	}
 
 	// spawns a single plane
@@ -153,7 +151,7 @@ public class PlaneManager : MonoBehaviour {
 				rand = Random.Range (0, hObsticles.childCount);
 				uniquePos = generateNRandom (hObsticles.childCount, rand);
 				foreach (int i in uniquePos) {
-					var r = Random.Range (0, halloweenCollectables.Length);
+					var r = Random.Range (0, halloweenObstacles.Length);
 					var obj = (GameObject)Instantiate (halloweenObstacles [r], hObsticles.GetChild (i).position, Quaternion.identity);
 					plane.objects.Push (obj);
 				}

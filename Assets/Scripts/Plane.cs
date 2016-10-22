@@ -11,32 +11,21 @@ public class Plane : MonoBehaviour {
 	// the objects on the plane
 	public Stack<GameObject> objects = new Stack<GameObject> ();
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-
-	// Update is called once per frame
-	void Update () {
-		if (GameManager.Instance.level == 1) {
-			delay /= 0.25f;
-		}
-	}
-		
 	void OnTriggerEnter(Collider other) {
 		// everytime a planes exits a trigger with a Player it will spawn another plane
 		if (other.tag == "Player") {
+			Debug.Log ("entered the plane");
 			PlaneManager.Instance.SpawnPlane ();
+			Debug.Log ("start coroutine");
 			StartCoroutine (DestroyPlane(delay));
 		}
 	}
 
 	IEnumerator DestroyPlane(float destroyDelay) {
+		Debug.Log ("started delay");
 		yield return new WaitForSeconds (destroyDelay);
-		if (PlayerController.Instance.plane.Equals (this)) {
-			Destroy (this);
-		}
-		gameObject.SetActive (false);
+		Debug.Log ("destroying object");
+		this.gameObject.SetActive (false);
 		foreach (GameObject o in objects) {
 			o.SetActive(false);
 			o.transform.parent = transform;

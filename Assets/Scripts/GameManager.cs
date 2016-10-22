@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour {
 
 		onYourMarkText.text = "";
 		StartCoroutine(OnYourMark());
-
+		changeLevel ();
 	}
 
 	//wait for 5 seconds to start the game & display starting text
@@ -110,7 +110,6 @@ public class GameManager : MonoBehaviour {
 				if (level == 2) {
 					if (currPoints >= maxPoints && presentPoints >= maxPoints &&
 					    teddyPoints >= maxPoints && ornamentPoints >= maxPoints) {
-						Debug.Log ("all points full");
 						changeLevel ();
 					}
 				} else if (currPoints == maxPoints) {
@@ -125,7 +124,6 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void addPoints (string pickupName) {
-		Debug.Log ("points: " + currPoints);
 		if (pickupName == "EasterEgg" || pickupName == "Jackolantern") {
 			//if the bar is full, don't change anything. else update bar 
 			if (currPoints < maxPoints) {
