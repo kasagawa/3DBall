@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour {
 				//check if level is over 
 				if (level == 2) {
 					if (currPoints >= maxPoints && presentPoints >= maxPoints &&
-					    teddyPoints >= maxPoints && ornamentPoints >= maxPoints) {
+						teddyPoints >= maxPoints && ornamentPoints >= maxPoints) {
 						changeLevel ();
 					}
 				} else if (currPoints == maxPoints) {
@@ -142,6 +142,13 @@ public class GameManager : MonoBehaviour {
 		} else if (pickupName == "TeddyBear" && teddyPoints < maxPoints) {
 			teddyPoints += 1f;
 			teddyBar.GetComponent<ProgressBar> ().setProgressBar (teddyPoints);
+		}
+	}
+
+	public void subPoints () {
+		if (currPoints > 0) {
+			currPoints -= 1f;
+			progressBar.GetComponent<ProgressBar> ().setProgressBar (currPoints);
 		}
 	}
 
