@@ -6,14 +6,16 @@ public class PlayerController : MonoBehaviour {
 
 	public float speed, speed1, speed2;
 	public float storedSpeed;
-//	private Vector3 dir;
 
 	public int pickUpCount;
 
-	private bool fellIntoHole;
+	private bool grounded;
+
 	private Rigidbody rb;
 
 	public GameObject plane;
+	private static float jumpForce = 500f;
+
 	private GameManager manager;
 
 	// materials for each level
@@ -33,62 +35,14 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Start() {
-		fellIntoHole = false;
 		rb = GetComponent<Rigidbody>();
 		storedSpeed = speed;
-//		dir = Vector3.zero;
 		manager = GameManager.Instance;
 	}
 
 	//controls the movement of the ball
-	void Update() {
-		//		if (Input.GetKey (KeyCode.LeftArrow)) {
-		//			dir = Vector3.left;
-		//		} else if (Input.GetKey (KeyCode.RightArrow)) {
-		//			dir = Vector3.right;
-		//		} else {
-		//			dir = Vector3.forward;
-		//		}
-		//		if (plane.CompareTag ("TopPlane")) {
-		//			if (Input.GetKey (KeyCode.RightArrow)) {
-		//				dir = Vector3.right;
-		//			} else if (Input.GetKey (KeyCode.LeftArrow)) {
-		//				dir = Vector3.left;
-		//			} else {
-		//				dir = Vector3.forward;
-		//			}
-		//		} else if (plane.CompareTag ("LeftPlane")) {
-		//			if (Input.GetKey (KeyCode.LeftArrow)) {
-		//				dir = Vector3.left;
-		//			} else if (Input.GetKey (KeyCode.DownArrow)) {
-		//				dir = Vector3.back;
-		//			} else {
-		//				dir = Vector3.forward;
-		//			}
-		//		} else
-		//			return;
-		//
-		//		if (plane.CompareTag ("WinningPlane")) {
-		//			if (Input.GetKey (KeyCode.DownArrow)) {
-		//				dir = Vector3.back;
-		//			} else if (Input.GetKey (KeyCode.UpArrow)) {
-		//				dir = Vector3.forward;
-		//			} else if (Input.GetKey (KeyCode.RightArrow)) {
-		//				dir = Vector3.right;
-		//			} else if (Input.GetKey (KeyCode.LeftArrow)) {
-		//				dir = Vector3.left;
-		//			} 
-		//		} 
-
-		//		float amountToMove = speed * Time.deltaTime;
-		//		transform.Translate (dir * amountToMove);
-	}
-
-	//controls the movement of the ball
 	void FixedUpdate () {
-		if (fellIntoHole) {
-			return;
-		} else if (plane.CompareTag ("TopPlane")) {
+		if (plane.CompareTag ("TopPlane")) {
 			if (Input.GetKey (KeyCode.RightArrow)) {
 				rb.velocity = new Vector3(1 * speed, rb.velocity.y);
 			} else if (Input.GetKey (KeyCode.LeftArrow)) {
@@ -112,11 +66,17 @@ public class PlayerController : MonoBehaviour {
 			rb.AddForce (mov * speed);
 			return;
 		} 
+
+		if (Input.GetKey(KeyCode.Space) && grounded) {
+			rb.AddForce (new Vector3(0, jumpForce));
+			grounded = false;
+		}
 	}
 
 	void OnTriggerEnter (Collider other){
 		if (other.gameObject.CompareTag ("LeftPlane") || other.gameObject.CompareTag ("TopPlane")) {
 			plane = other.gameObject;
+			grounded = true;
 		}
 		else if (other.gameObject.CompareTag("EasterEgg") && (manager.level == 0)){
 			CollectObject (other);

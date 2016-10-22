@@ -33,6 +33,8 @@ public class PlaneManager : MonoBehaviour {
 
 	public GameObject[] fence;
 
+	public GameObject star;
+
 	// a stack of inactive left planes
 	private Stack<GameObject> leftPlanes;
 	// a stack of inactive top planes
