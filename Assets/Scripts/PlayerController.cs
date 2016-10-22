@@ -128,7 +128,6 @@ public class PlayerController : MonoBehaviour {
 		}
 		else if (other.gameObject.CompareTag("Jackolantern")&& (manager.level == 1)){
 			CollectObject (other);
-			manager.addPoints (other.gameObject.tag);
 		}
 		//you've already collected enough for this level so it doesn't add points
 		else if (other.gameObject.CompareTag("Jackolantern")&& (manager.level == 2)){
@@ -139,19 +138,18 @@ public class PlayerController : MonoBehaviour {
 		}
 		else if (other.gameObject.CompareTag("Ornament")){
 			CollectObject (other);
-			manager.addPoints (other.gameObject.tag);
 		}
 		else if (other.gameObject.CompareTag("Present")){
 			CollectObject (other);
-			manager.addPoints (other.gameObject.tag);
 		}
 		else if (other.gameObject.CompareTag("CandyCane")){
 			CollectObject (other);
-			manager.addPoints (other.gameObject.tag);
 		}
 		else if (other.gameObject.CompareTag("TeddyBear")){
 			CollectObject (other);
-			manager.addPoints (other.gameObject.tag);
+		}
+		else if (other.gameObject.CompareTag("Star")){
+			CollectObject (other);
 		}
 
 	}
@@ -171,6 +169,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void CollectObject (Collider other){
-		other.gameObject.SetActive(false);  
+		other.gameObject.SetActive(false); 
+		manager.addPoints (other.gameObject.tag);
 	}
 }
