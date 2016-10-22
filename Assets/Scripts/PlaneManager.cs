@@ -87,12 +87,8 @@ public class PlaneManager : MonoBehaviour {
 		GameObject tmp = leftPlanes.Peek();
 		if (rand == 0) {
 			tmp = leftPlanes.Pop ();
-			if (current != null) 
-				current.transform.GetComponent<Plane>().leftAttach = true;
 		} else if (rand == 1) {
 			tmp = topPlanes.Pop ();
-			if (current != null)
-				current.transform.GetComponent<Plane>().leftAttach = false;
 		}
 
 		tmp.transform.GetChild(0).GetComponent<MeshRenderer>().sharedMaterial = materials[manager.level];
@@ -147,7 +143,7 @@ public class PlaneManager : MonoBehaviour {
 
 			rand = Random.Range (0, 5); // randomly determine if to add obsticles
 			if (rand == 1) {
-				var hObsticles = current.transform.FindChild ("HalloweenObsticles");
+				var hObsticles = current.transform.FindChild ("HalloweenObstacles");
 				rand = Random.Range (0, hObsticles.childCount);
 				uniquePos = generateNRandom (hObsticles.childCount, rand);
 				foreach (int i in uniquePos) {

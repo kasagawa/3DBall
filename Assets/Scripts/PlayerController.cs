@@ -6,10 +6,11 @@ public class PlayerController : MonoBehaviour {
 
 	public float speed, speed1, speed2;
 	public float storedSpeed;
-	private Vector3 dir;
+//	private Vector3 dir;
 
 	public int pickUpCount;
 
+	private bool fellIntoHole;
 	private Rigidbody rb;
 
 	public GameObject plane;
@@ -32,9 +33,10 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Start() {
+		fellIntoHole = false;
 		rb = GetComponent<Rigidbody>();
 		storedSpeed = speed;
-		dir = Vector3.zero;
+//		dir = Vector3.zero;
 		manager = GameManager.Instance;
 	}
 
@@ -84,7 +86,9 @@ public class PlayerController : MonoBehaviour {
 
 	//controls the movement of the ball
 	void FixedUpdate () {
-		if (plane.CompareTag ("TopPlane")) {
+		if (fellIntoHole) {
+			return;
+		} else if (plane.CompareTag ("TopPlane")) {
 			if (Input.GetKey (KeyCode.RightArrow)) {
 				rb.velocity = new Vector3(1 * speed, rb.velocity.y);
 			} else if (Input.GetKey (KeyCode.LeftArrow)) {
@@ -111,7 +115,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter (Collider other){
-		if (other.gameObject.CompareTag ("LeftPlane") || other.gameObject.CompareTag("TopPlane")) {
+		if (other.gameObject.CompareTag ("LeftPlane") || other.gameObject.CompareTag ("TopPlane")) {
 			plane = other.gameObject;
 		}
 		else if (other.gameObject.CompareTag("EasterEgg") && (manager.level == 0)){
@@ -167,6 +171,6 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void CollectObject (Collider other){
-		other.gameObject.SetActive(false);
+		other.gameObject.SetActive(false);  
 	}
 }
