@@ -24,9 +24,14 @@ public class GameManager : MonoBehaviour {
 
 
 	//variables that take care of collection count
-
 	public float maxPoints = 2f; //CHANGE
-	public float currPoints = 0f;
+	public float currPoints = 0f; //also used for candy cane
+	public float presentPoints = 0f;
+	public float ornamentPoints = 0f;
+	public float teddyPoints = 0f;
+
+	//variables for the progress bars
+	public GameObject progressBar, presentBar, teddyBar, ornamentBar;
 
 	//variables for the audio sources
 	public AudioSource easterMusic;
@@ -55,6 +60,10 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Start() {
+		presentBar.SetActive (false);
+		teddyBar.SetActive (false);
+		ornamentBar.SetActive (false);
+
 		player = PlayerController.Instance;
 		CRrunning = false;
 		currentMusic = easterMusic;
@@ -68,6 +77,7 @@ public class GameManager : MonoBehaviour {
 
 		onYourMarkText.text = "";
 		StartCoroutine(OnYourMark());
+
 	}
 
 	//wait for 5 seconds to start the game & display starting text
@@ -95,13 +105,17 @@ public class GameManager : MonoBehaviour {
 					seconds = 59;
 				timerText.text = "Time: " + string.Format ("{0:00} : {1:00}", minutes, seconds); 
 
-				if (currPoints == maxPoints) {
-					currPoints = 0f;
-					ProgressBar.Instance.setProgressBar ();
-					//					ProgressBar.Instance.changeColor ();
+				//check if level is over 
+				if (level == 2) {
+					if (currPoints >= maxPoints && presentPoints >= maxPoints &&
+					    teddyPoints >= maxPoints && ornamentPoints >= maxPoints) {
+						Debug.Log ("all points full");
+						changeLevel ();
+					}
+				} else if (currPoints == maxPoints) {
 					changeLevel ();
 				}
-			} 
+			}
 			//if the player falls too far, lose the game
 			else {
 				LoseGame ();
@@ -109,21 +123,82 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	public void addPoints () {
-		currPoints += 1f;
-		ProgressBar.Instance.setProgressBar ();
+	public void addPoints (string pickupName) {
+		Debug.Log ("points: " + currPoints);
+		if (pickupName == "EasterEgg" || pickupName == "Jackolantern") {
+			//if the bar is full, don't change anything. else update bar 
+			if (currPoints < maxPoints) {
+				currPoints += 1f;
+				progressBar.GetComponent<ProgressBar> ().setProgressBar (currPoints);
+			}
+		} else if (pickupName == "CandyCane" && currPoints < maxPoints) {
+			Debug.Log ("candycane points: " + currPoints);
+			currPoints += 1f;
+			progressBar.GetComponent<ProgressBar> ().setProgressBar (currPoints);
+		} else if (pickupName == "Present" && presentPoints < maxPoints) {
+			presentPoints += 1f;
+			presentBar.GetComponent<ProgressBar> ().setProgressBar (presentPoints);
+		} else if (pickupName == "Ornament" && ornamentPoints < maxPoints) {
+			ornamentPoints += 1f;
+			ornamentBar.GetComponent<ProgressBar> ().setProgressBar (ornamentPoints);
+
+		} else if (pickupName == "TeddyBear" && teddyPoints < maxPoints) {
+			teddyPoints += 1f;
+			teddyBar.GetComponent<ProgressBar> ().setProgressBar (teddyPoints);
+		}
 	}
 
 	public void changeLevel() {
-		if (level == 2) {
+		if (level == 2) { //if finish christmas
 			WinGame();
 			return;
 		} 
-		level++;
-		ProgressBar.Instance.changeColor ();
-		changeMusic ();
 
+		level++;
+		//reset the point counter, update progress bar, music, and ball color for each level
+		currPoints = 0f;
+		progressBar.GetComponent<ProgressBar> ().changeColor ();
+		progressBar.GetComponent<ProgressBar> ().setProgressBar (currPoints);
+		changeMusic ();
 		player.GetComponent<MeshRenderer>().sharedMaterial = player.materials[level];
+
+		//update the progress bars 
+		if (level == 1) {
+			halloweenConstructor ();
+		} else if (level == 2) {
+			christmasConstructor ();
+		}
+	}
+
+	//change icons next to progress bar  
+	void halloweenConstructor() {
+		progressBar.GetComponent<ProgressBar> ().easterEgg.SetActive(false);
+		progressBar.GetComponent<ProgressBar> ().jackolantern.SetActive (true);
+	}
+
+	//change icons next to progress bars
+	//initalize the three additional progress bars for christmas level 
+	void christmasConstructor () {
+		progressBar.GetComponent<ProgressBar> ().candyCane.SetActive (true);
+		progressBar.GetComponent<ProgressBar> ().jackolantern.SetActive (false);
+
+		presentBar.SetActive (true);
+		presentBar.GetComponent<ProgressBar> ().hideIcon ();
+		presentBar.GetComponent<ProgressBar> ().present.SetActive (true);
+		presentBar.GetComponent<ProgressBar> ().changeColor ();
+
+
+		ornamentBar.SetActive (true);
+		ornamentBar.GetComponent<ProgressBar> ().hideIcon ();
+		ornamentBar.GetComponent<ProgressBar> ().ornament.SetActive (true);
+		ornamentBar.GetComponent<ProgressBar> ().changeColor ();
+
+
+		teddyBar.SetActive (true);
+		teddyBar.GetComponent<ProgressBar> ().hideIcon ();
+		teddyBar.GetComponent<ProgressBar> ().teddy.SetActive (true);
+		teddyBar.GetComponent<ProgressBar> ().changeColor ();
+
 	}
 
 	void changeMusic(){

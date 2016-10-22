@@ -5,23 +5,18 @@ using System.Collections;
 public class ProgressBar : MonoBehaviour {
 
 	public GameObject progressBar;
-	public GameObject EasterEgg, Jackolantern;
+	public GameObject easterEgg, jackolantern, candyCane, teddy, present, ornament;
+	private Image progressImg, background;
+
+
+	private static Color32 grey = new Color32 (71, 72, 74, 255);
+	private static Color32 orange = new Color32 (255, 148, 0, 255);
+	private static Color32 red = new Color32 (229, 15, 15, 255);
+	private static Color32 green = new Color32 (135, 216, 98, 255);
 
 	//coordinates of the progress bar 
 	float barY,barX;
 
-	// the instance of the current PlayerPoints
-	private static ProgressBar instance;
-
-	// static property of PlayerPoints 
-	public static ProgressBar Instance {
-		get { // an instance getter
-			if (instance == null) {
-				instance = GameObject.FindObjectOfType<ProgressBar> ();
-			}
-			return instance;
-		}
-	}
 
 	// Use this for initialization
 	void Start () {
@@ -30,45 +25,51 @@ public class ProgressBar : MonoBehaviour {
 		barX = progressBar.transform.localScale.x;
 		progressBar.transform.localScale = new Vector3 (0, barY, barX);
 
-		EasterEgg.SetActive (true);
-		Jackolantern.SetActive (false);
+		//set icon next to progress bar
+		hideIcon ();
+		easterEgg.SetActive (true);
+
+		//
+		progressImg = GameObject.Find("Progress").GetComponent<Image>();
+		background = GameObject.Find("Background").GetComponent<Image>();
+
+
+	}
+
+	//sets all the icons to false 
+	public void hideIcon () {
+		easterEgg.SetActive (false);
+		candyCane.SetActive (false);
+		teddy.SetActive (false);
+		present.SetActive (false);
+		ornament.SetActive (false);
+		jackolantern.SetActive (false);
 	}
 
 	// Moves the bar to match the player's progress in collecting objects
-	public void setProgressBar () {
+	public void setProgressBar (float currPoints) {
+		if (currPoints <= GameManager.Instance.maxPoints) {
+			//calcProgress is the percentage of completion -- num between 0 and 1
+			float progress = currPoints / GameManager.Instance.maxPoints;
 
-		//calcProgress is the percentage of completion -- num between 0 and 1
-		float progress = GameManager.Instance.currPoints / GameManager.Instance.maxPoints;
+			barY = progressBar.transform.localScale.y;
+			barX = progressBar.transform.localScale.x;
 
-		barY = progressBar.transform.localScale.y;
-		barX = progressBar.transform.localScale.x;
-
-		progressBar.transform.localScale = new Vector3 (progress, barY, barX);
+			progressBar.transform.localScale = new Vector3 (progress, barY, barX);
+		}
 	}
 
-	public void changeColor() {
-
-		Color32 grey = new Color32 (71, 72, 74, 255);
-		Color32 orange = new Color32 (255, 148, 0, 255);
-		Color32 red = new Color32 (229, 15, 15, 255);
-		Color32 green = new Color32 (135, 216, 98, 255);
-
-		//change the color of the progress bar 
+	public void changeColor () {
 		if (GameManager.Instance.level == 1) {
-			Image progressImg = GameObject.Find("Progress").GetComponent<Image>();
+			//change the color of the progress bar 
 			progressImg.color = orange;
-			Image background = GameObject.Find("Background").GetComponent<Image>();
 			background.color = grey;
-
-			//change the image next to progress bar
-			EasterEgg.SetActive (false);
-			Jackolantern.SetActive (true);
 		}
 
 		else if (GameManager.Instance.level == 2) {
-			Image progressImg = GameObject.Find("Progress").GetComponent<Image>();
+			Debug.Log ("changing color to christmas");
+			//change the color of the progress bar 
 			progressImg.color = red;
-			Image background = GameObject.Find("Background").GetComponent<Image>();
 			background.color = green;
 		}
 
