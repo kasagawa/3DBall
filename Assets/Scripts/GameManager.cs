@@ -78,7 +78,6 @@ public class GameManager : MonoBehaviour {
 
 		onYourMarkText.text = "";
 		StartCoroutine(OnYourMark());
-		changeLevel ();
 	}
 
 	//wait for 5 seconds to start the game & display starting text
@@ -131,7 +130,6 @@ public class GameManager : MonoBehaviour {
 				progressBar.GetComponent<ProgressBar> ().setProgressBar (currPoints);
 			}
 		} else if (pickupName == "CandyCane" && currPoints < maxPoints) {
-			Debug.Log ("candycane points: " + currPoints);
 			currPoints += 1f;
 			progressBar.GetComponent<ProgressBar> ().setProgressBar (currPoints);
 		} else if (pickupName == "Present" && presentPoints < maxPoints) {
@@ -164,8 +162,10 @@ public class GameManager : MonoBehaviour {
 		//update the progress bars 
 		if (level == 1) {
 			halloweenConstructor ();
+			player.speedUp ();
 		} else if (level == 2) {
 			christmasConstructor ();
+			player.speedUp ();
 		}
 	}
 

@@ -4,7 +4,7 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
-	public float speed;
+	public float speed, speed1, speed2;
 	public float storedSpeed;
 	private Vector3 dir;
 
@@ -110,14 +110,13 @@ public class PlayerController : MonoBehaviour {
 		} 
 	}
 		
-	//****we may want to move this to another class!****
 	void OnTriggerEnter (Collider other){
 		if (other.gameObject.CompareTag ("LeftPlane") || other.gameObject.CompareTag("TopPlane")) {
 			plane = other.gameObject;
 		}
 		else if (other.gameObject.CompareTag("EasterEgg") && (manager.level == 0)){
 			CollectObject (other);
-			GameManager.Instance.addPoints (other.gameObject.tag);
+			manager.addPoints (other.gameObject.tag);
 		}
 		//you've already collected enough for this level so it doesn't add points
 		else if (other.gameObject.CompareTag("EasterEgg") && (manager.level == 1)){
@@ -125,7 +124,7 @@ public class PlayerController : MonoBehaviour {
 		}
 		else if (other.gameObject.CompareTag("Jackolantern")&& (manager.level == 1)){
 			CollectObject (other);
-			GameManager.Instance.addPoints (other.gameObject.tag);
+			manager.addPoints (other.gameObject.tag);
 		}
 		//you've already collected enough for this level so it doesn't add points
 		else if (other.gameObject.CompareTag("Jackolantern")&& (manager.level == 2)){
@@ -136,24 +135,31 @@ public class PlayerController : MonoBehaviour {
 		}
 		else if (other.gameObject.CompareTag("Ornament")){
 			CollectObject (other);
-			GameManager.Instance.addPoints (other.gameObject.tag);
+			manager.addPoints (other.gameObject.tag);
 		}
 		else if (other.gameObject.CompareTag("Present")){
 			CollectObject (other);
-			GameManager.Instance.addPoints (other.gameObject.tag);
+			manager.addPoints (other.gameObject.tag);
 		}
 		else if (other.gameObject.CompareTag("CandyCane")){
 			CollectObject (other);
-			GameManager.Instance.addPoints (other.gameObject.tag);
+			manager.addPoints (other.gameObject.tag);
 		}
 		else if (other.gameObject.CompareTag("TeddyBear")){
 			CollectObject (other);
-			GameManager.Instance.addPoints (other.gameObject.tag);
+			manager.addPoints (other.gameObject.tag);
 		}
 
 		//if hit skeleton -- lose points?!
 	}
-//
+
+	public void speedUp() {
+		if (manager.level == 1) {
+			speed = speed1;
+		} else if (manager.level == 2) {
+			speed1 = speed2;
+		}
+	}
 
 	void OnCollisionExit(Collision c) {
 		if (c.gameObject.CompareTag("Start")) {
