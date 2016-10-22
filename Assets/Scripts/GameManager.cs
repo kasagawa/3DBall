@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour {
 
 	private PlayerController player;
 
-
 	//all the text to be displayed on scene
 	public Text timerText;
 	public Text loseText;
@@ -21,16 +20,17 @@ public class GameManager : MonoBehaviour {
 	public static float finalMin, finalSec;
 	private bool CRrunning;
 
-
 	//variables that take care of collection count
 	public float maxPoints = 2f; //CHANGE
-	public float currPoints = 0f; //also used for candy cane
-	public float presentPoints = 0f;
-	public float ornamentPoints = 0f;
-	public float teddyPoints = 0f;
+	private float currPoints = 0f; //also used for candy cane
+	private float presentPoints = 0f;
+	private float ornamentPoints = 0f;
+	private float teddyPoints = 0f;
+	private float starPoints = 0f;
 
-	//variables for the progress bars
+	//variables for the keeping track of collection of items 
 	public GameObject progressBar, presentBar, teddyBar, ornamentBar;
+	public GameObject star1, star2, star3, greyStar1, greyStar2, greyStar3;
 
 	//variables for the audio sources
 	public AudioSource easterMusic;
@@ -59,9 +59,18 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Start() {
+		//set all inactive icons to false
 		presentBar.SetActive (false);
 		teddyBar.SetActive (false);
 		ornamentBar.SetActive (false);
+
+		greyStar1.SetActive(false);
+		greyStar2.SetActive(false);
+		greyStar3.SetActive(false);
+
+		star1.SetActive (false);
+		star2.SetActive (false);
+		star3.SetActive (false);
 
 		player = PlayerController.Instance;
 		CRrunning = false;
@@ -108,7 +117,7 @@ public class GameManager : MonoBehaviour {
 				//check if level is over 
 				if (level == 2) {
 					if (currPoints >= maxPoints && presentPoints >= maxPoints &&
-						teddyPoints >= maxPoints && ornamentPoints >= maxPoints) {
+						teddyPoints >= maxPoints && ornamentPoints >= maxPoints && starPoints >= 3f) {
 						changeLevel ();
 					}
 				} else if (currPoints == maxPoints) {
@@ -138,10 +147,22 @@ public class GameManager : MonoBehaviour {
 		} else if (pickupName == "Ornament" && ornamentPoints < maxPoints) {
 			ornamentPoints += 1f;
 			ornamentBar.GetComponent<ProgressBar> ().setProgressBar (ornamentPoints);
-
 		} else if (pickupName == "TeddyBear" && teddyPoints < maxPoints) {
 			teddyPoints += 1f;
 			teddyBar.GetComponent<ProgressBar> ().setProgressBar (teddyPoints);
+		} else if (pickupName == "Star" && starPoints < 3f) {
+			starPoints += 1f;
+			if (starPoints == 1) {
+				greyStar1.SetActive (false);
+				star1.SetActive (true);
+			} else if (starPoints == 2) {
+				greyStar2.SetActive (false);
+				star2.SetActive (true);
+			} else if (starPoints == 3) {
+				greyStar3.SetActive (false);
+				star3.SetActive (true);
+
+			}
 		}
 	}
 
@@ -185,6 +206,10 @@ public class GameManager : MonoBehaviour {
 	//change icons next to progress bars
 	//initalize the three additional progress bars for christmas level 
 	void christmasConstructor () {
+		greyStar1.SetActive (true);
+		greyStar2.SetActive (true);
+		greyStar3.SetActive (true);
+
 		progressBar.GetComponent<ProgressBar> ().candyCane.SetActive (true);
 		progressBar.GetComponent<ProgressBar> ().jackolantern.SetActive (false);
 
