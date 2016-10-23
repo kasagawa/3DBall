@@ -92,9 +92,6 @@ public class PlayerController : MonoBehaviour {
 		else if (other.gameObject.CompareTag("Jackolantern")&& (manager.level == 2)){
 			other.gameObject.SetActive(false);
 		}
-		else if (other.gameObject.CompareTag("Skeleton") && (manager.level == 1)){
-			manager.subPoints ();
-		}
 		else if (other.gameObject.CompareTag("Ornament")){
 			CollectObject (other);
 		}
@@ -111,6 +108,12 @@ public class PlayerController : MonoBehaviour {
 			CollectObject (other);
 		}
 
+	}
+
+	void OnCollisionEnter (Collision collision) {
+		if (collision.gameObject.CompareTag("Skeleton") && (manager.level == 1)){
+			manager.subPoints ();
+		}
 	}
 
 	public void speedUp() {

@@ -14,12 +14,13 @@ public class GameManager : MonoBehaviour {
 	public Text loseText;
 	public Text quitText;
 	public Text onYourMarkText;
+	public Text jumpText;
 
 	//variables that take care of timing
 	private float time, minutes, seconds;
 	public static float finalMin, finalSec;
 	private bool CRrunning;
-
+	private bool jumpTextOn;
 	//variables that take care of collection count
 	public float maxPoints = 2f; //CHANGE
 	private float currPoints = 0f; //also used for candy cane
@@ -74,6 +75,7 @@ public class GameManager : MonoBehaviour {
 
 		player = PlayerController.Instance;
 		CRrunning = false;
+		jumpTextOn = false;
 		currentMusic = easterMusic;
 
 		time = 0;
@@ -84,6 +86,7 @@ public class GameManager : MonoBehaviour {
 		timerText.text = "Time: " + string.Format ("{0:00} : {1:00}", minutes, seconds);
 		loseText.text = "";
 		quitText.text = "";
+		jumpText.text = "";
 
 		onYourMarkText.text = "";
 		StartCoroutine(OnYourMark());
@@ -119,6 +122,9 @@ public class GameManager : MonoBehaviour {
 					if (currPoints >= maxPoints && presentPoints >= maxPoints &&
 						teddyPoints >= maxPoints && ornamentPoints >= maxPoints && starPoints >= 3f) {
 						changeLevel ();
+					}
+					if (jumpTextOn) {
+						StartCoroutine (displayJumpText ());
 					}
 				} else if (currPoints == maxPoints) {
 					changeLevel ();
@@ -194,6 +200,7 @@ public class GameManager : MonoBehaviour {
 		} else if (level == 2) {
 			christmasConstructor ();
 			player.speedUp ();
+			jumpTextOn = true;
 		}
 	}
 
@@ -232,6 +239,7 @@ public class GameManager : MonoBehaviour {
 
 	}
 
+	//this method changes the music for the new holiday (level)
 	void changeMusic(){
 		if (level == 0) {
 			easterMusic.Play ();
@@ -247,6 +255,14 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	//This will run when you hit level 3. It informs that player that you can now jump
+	IEnumerator displayJumpText(){
+		jumpText.text = "Press Space to Jump";
+		yield return new WaitForSeconds(2);
+		jumpText.text = "";
+		jumpTextOn = false;
+	}
+
 	//Takes you to the final scene if you won
 	public void WinGame() {
 		player.speed = 0;
@@ -258,7 +274,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 
-	//Call this method if you fall off the platform
+	//This method is called if you fall off the platform
 	public void LoseGame() {
 		player.speed = 0;
 		loseText.text = "You Lose";
