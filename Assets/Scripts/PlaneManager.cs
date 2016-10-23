@@ -182,7 +182,7 @@ public class PlaneManager : MonoBehaviour {
 				plane.objects[manager.level].Push (obj);
 			}
 
-			rand = Random.Range (0, n/k * s); // determine if to add a star depending on the 1/(n/k*s) probability
+			rand = Random.Range (0, 2*(n/k * s)); // determine if to add a star depending on the 1/(n/k*s) probability
 			if (rand == 1) {
 				var cStar = current.transform.FindChild ("Star");
 				int i = Random.Range(0, cStar.childCount);
