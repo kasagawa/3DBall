@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour {
 	private Rigidbody rb;
 
 	public GameObject plane;
-	private static float jumpForce = 500f;
+	private static float jumpForce = 350f;
 
 	private GameManager manager;
 
@@ -66,8 +66,7 @@ public class PlayerController : MonoBehaviour {
 			rb.AddForce (mov * speed);
 			return;
 		} 
-
-		if (Input.GetKey(KeyCode.Space) && grounded) {
+		if (Input.GetKey(KeyCode.Space) && grounded && manager.level == 2) {
 			rb.AddForce (new Vector3(0, jumpForce));
 			grounded = false;
 		}

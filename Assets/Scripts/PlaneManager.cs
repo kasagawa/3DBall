@@ -5,7 +5,13 @@ using System.Collections.Generic;
 public class PlaneManager : MonoBehaviour {
 
 	// amount of planes to create at the start of the game
-	private static int planesToCreate = 100;
+	private static int n = 100;
+
+	// int used to normalize n (n % k = 0)
+	private static int k = 25;
+
+	// int used to normalize randomization
+	private static int s = 3;
 
 	// the game manager
 	private GameManager manager;
@@ -60,9 +66,9 @@ public class PlaneManager : MonoBehaviour {
 		leftPlanes = new Stack<GameObject> ();
 		topPlanes = new Stack<GameObject> ();
 
-		CreatePlanes (planesToCreate);
+		CreatePlanes (n);
 
-		for (int i = 0; i < planesToCreate / 25; i++) {
+		for (int i = 0; i < n / k; i++) {
 			SpawnPlane ();
 		}
 	}
@@ -80,7 +86,7 @@ public class PlaneManager : MonoBehaviour {
 	// spawns a single plane
 	public void SpawnPlane() {
 		if (leftPlanes.Count == 0 || topPlanes.Count == 0) {
-			CreatePlanes (planesToCreate / 10);
+			CreatePlanes (n / k);
 		}
 
 		// generating random number between 0 and the amount of available plane prefabs
@@ -112,7 +118,7 @@ public class PlaneManager : MonoBehaviour {
 		if (manager.level == 0) {
 			var easter = current.transform.FindChild ("CollectablesSpaces"); // get the easter collectible spaces
 
-			var rand = Random.Range (0, easter.childCount / 3); // generate random amount of collectibles to generate
+			var rand = Random.Range (0, easter.childCount / s); // generate random amount of collectibles to generate
 
 			var uniquePos = generateNRandom (easter.childCount, rand); // generates rand unique random positions
 			foreach (int i in uniquePos) {
@@ -123,7 +129,7 @@ public class PlaneManager : MonoBehaviour {
 		} else if (manager.level == 1) {
 			var halloween = current.transform.FindChild ("CollectablesSpaces"); // get the halloween collectible spaces
 
-			var rand = Random.Range (0, halloween.childCount / 3);
+			var rand = Random.Range (0, halloween.childCount / s);
 
 			var uniquePos = generateNRandom (halloween.childCount, rand);
 			foreach (int i in uniquePos) {
@@ -132,7 +138,7 @@ public class PlaneManager : MonoBehaviour {
 				plane.objects.Push (obj);
 			}
 
-			rand = Random.Range (0, 3); // randomly determine if to add a fence
+			rand = Random.Range (0, s); // randomly determine if to add a fence
 			if (rand == 1) {
 				var fenceSpace = current.transform.FindChild ("FenceSpace");
 				var f = fence [0];
@@ -143,7 +149,7 @@ public class PlaneManager : MonoBehaviour {
 				plane.objects.Push (obj);
 			}
 
-			rand = Random.Range (0, 5); // randomly determine if to add obsticles
+			rand = Random.Range (0, n/k); // randomly determine if to add obsticles
 			if (rand == 1) {
 				var hObsticles = current.transform.FindChild ("HalloweenObstacles");
 				rand = Random.Range (0, hObsticles.childCount);
@@ -157,7 +163,7 @@ public class PlaneManager : MonoBehaviour {
 		} else if (manager.level == 2) {
 			var christmas = current.transform.FindChild ("CollectablesSpaces"); // get the christmas collectible spaces
 
-			var rand = Random.Range (0, christmas.childCount / 3);
+			var rand = Random.Range (0, christmas.childCount / s);
 
 			var uniquePos = generateNRandom (christmas.childCount, rand);
 			foreach (int i in uniquePos) {
@@ -166,18 +172,16 @@ public class PlaneManager : MonoBehaviour {
 				plane.objects.Push (obj);
 			}
 
-			rand = Random.Range (0, 13); // determine if to add stars
+			rand = Random.Range (0, n/k * s); // determine if to add stars
 			if (rand == 1) {
 				var cStar = current.transform.FindChild ("Star");
-				uniquePos = generateNRandom (cStar.childCount, 1);
-				foreach (int i in uniquePos) {
-					var obj = (GameObject)Instantiate (star, cStar.GetChild (i).position, Quaternion.identity);
-					plane.objects.Push (obj);
-				}
+				int i = Random.Range(0, cStar.childCount);
+				var obj = (GameObject)Instantiate (star, cStar.GetChild (i).position, Quaternion.identity);
+				plane.objects.Push (obj);
 			}
 
 			var cScenery = current.transform.FindChild ("ChristmasScenery");
-			rand = Random.Range (0, 2); // determine if to add rocks
+			rand = Random.Range (0, n/k); // determine if to add rocks
 			if (rand == 1) {
 				var cRocks = cScenery.GetChild (0).transform;
 				rand = Random.Range (0, cRocks.childCount);
@@ -189,7 +193,7 @@ public class PlaneManager : MonoBehaviour {
 				}
 			}
 
-			rand = Random.Range (0, 2); // determine if to add trees
+			rand = Random.Range (0, s); // determine if to add trees
 			if (rand == 1) {
 				var cTrees = cScenery.GetChild (1).transform;
 				rand = Random.Range (0, cTrees.childCount);
@@ -211,10 +215,5 @@ public class PlaneManager : MonoBehaviour {
 			s.Add (Random.Range (0, n));
 		}
 		return s;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 }
