@@ -137,6 +137,7 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	// adds points to the game
 	public void addPoints (string pickupName) {
 		if (pickupName == "EasterEgg" || pickupName == "Jackolantern") {
 			//if the bar is full, don't change anything. else update bar 
@@ -172,6 +173,7 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	// takes points from the game
 	public void subPoints () {
 		if (currPoints > 0) {
 			currPoints -= 1f;
@@ -179,6 +181,7 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	// changes the level
 	public void changeLevel() {
 		if (level == 2) { //if finish christmas
 			WinGame();

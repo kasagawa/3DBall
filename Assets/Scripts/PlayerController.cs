@@ -2,20 +2,32 @@
 using UnityEngine.UI;
 using System.Collections;
 
+// Controls the player's (ball) movement and pick up of the player
 public class PlayerController : MonoBehaviour {
 
+	// the first, second, and third speed depending on the level
 	public float speed, speed1, speed2;
+
+	// the current speed of the player
 	public float storedSpeed;
 
+	// the count of the amount of objects the player 
+	// has picked up in the current level
 	public int pickUpCount;
 
+	// if the plane is on a platform
 	private bool grounded;
 
+	// the rigidbody component of the player
 	private Rigidbody rb;
 
+	// the current plane the player is on
 	public GameObject plane;
+
+	// the force of the player jump
 	private static float jumpForce = 350f;
 
+	// an instance of the game manager
 	private GameManager manager;
 
 	// materials for each level
@@ -34,6 +46,7 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	// the start of the game
 	void Start() {
 		rb = GetComponent<Rigidbody>();
 		storedSpeed = speed;
@@ -58,7 +71,7 @@ public class PlayerController : MonoBehaviour {
 			} else {
 				rb.velocity = new Vector3(0, rb.velocity.y, 1 * speed);
 			}
-		} else if (plane.CompareTag ("WinningPlane")) {
+		} else if (plane.CompareTag ("WinningPlane")) { // different rolling functionality for the winning scene
 			float moveHorizontal = Input.GetAxis ("Horizontal");
 			float moveVertical = Input.GetAxis ("Vertical");
 
@@ -66,7 +79,9 @@ public class PlayerController : MonoBehaviour {
 			rb.AddForce (mov * speed);
 			return;
 		} 
-		if (Input.GetKey(KeyCode.Space) && grounded && manager.level == 2) {
+		// jumping functionality (only jump if on ground and in level 3)
+		if (Input.GetKey(KeyCode.Space) && grounded && manager.level == 2) { 
+			PlaneManager.Instance.SpawnPlane (); // spawns a new plane when jumping in order to normalize
 			rb.AddForce (new Vector3(0, jumpForce));
 			grounded = false;
 		}
@@ -111,11 +126,13 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void OnCollisionEnter (Collision collision) {
+		// determines if the player collided with the skeleton
 		if (collision.gameObject.CompareTag("Skeleton") && (manager.level == 1)){
 			manager.subPoints ();
 		}
 	}
 
+	// speeds up the player (changes the player's speed)
 	public void speedUp() {
 		if (manager.level == 1) {
 			speed = speed1;
@@ -125,11 +142,14 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void OnCollisionExit(Collision c) {
+		// determine of the player is at the start plane
 		if (c.gameObject.CompareTag("Start")) {
 			Destroy (c.gameObject);
 		}
 	}
 
+	// collects an object (deactivates an object)
+	//for the player and adds pointr to the game manager
 	void CollectObject (Collider other){
 		other.gameObject.SetActive(false); 
 		manager.addPoints (other.gameObject.tag);

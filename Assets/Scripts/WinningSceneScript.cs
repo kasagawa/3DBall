@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class WinningSceneScript : MonoBehaviour {
 
-
+	// the winning text
 	public Text wonText;
+	// the current player
 	private PlayerController player;
 
 	// Use this for initialization

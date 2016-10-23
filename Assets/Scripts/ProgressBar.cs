@@ -3,12 +3,14 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class ProgressBar : MonoBehaviour {
-
+	// the object representing the progress bar
 	public GameObject progressBar;
+	// the objects to collects
 	public GameObject easterEgg, jackolantern, candyCane, teddy, present, ornament;
+	// the image of the progress bar and the background of the bar
 	private Image progressImg, background;
 
-
+	// the colors of the progress bar depending on the level
 	private static Color32 grey = new Color32 (71, 72, 74, 255);
 	private static Color32 orange = new Color32 (255, 148, 0, 255);
 	private static Color32 red = new Color32 (229, 15, 15, 255);
@@ -29,7 +31,6 @@ public class ProgressBar : MonoBehaviour {
 		hideIcon ();
 		easterEgg.SetActive (true);
 
-		//
 		progressImg = GameObject.Find("Progress").GetComponent<Image>();
 		background = GameObject.Find("Background").GetComponent<Image>();
 
@@ -54,11 +55,12 @@ public class ProgressBar : MonoBehaviour {
 
 			barY = progressBar.transform.localScale.y;
 			barX = progressBar.transform.localScale.x;
-
+			// changes the progress bar depending on the points
 			progressBar.transform.localScale = new Vector3 (progress, barY, barX);
 		}
 	}
 
+	// changes teh color of the progress bar depending on the level
 	public void changeColor () {
 		if (GameManager.Instance.level == 1) {
 			//change the color of the progress bar 
