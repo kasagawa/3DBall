@@ -112,7 +112,7 @@ public class PlaneManager : MonoBehaviour {
 		if (manager.level == 0) {
 			var easter = current.transform.FindChild ("CollectablesSpaces"); // get the easter collectible spaces
 
-			var rand = Random.Range (0, easter.childCount/3); // generate random amount of collectibles to generate
+			var rand = Random.Range (0, easter.childCount / 3); // generate random amount of collectibles to generate
 
 			var uniquePos = generateNRandom (easter.childCount, rand); // generates rand unique random positions
 			foreach (int i in uniquePos) {
@@ -123,7 +123,7 @@ public class PlaneManager : MonoBehaviour {
 		} else if (manager.level == 1) {
 			var halloween = current.transform.FindChild ("CollectablesSpaces"); // get the halloween collectible spaces
 
-			var rand = Random.Range (0, halloween.childCount/3);
+			var rand = Random.Range (0, halloween.childCount / 3);
 
 			var uniquePos = generateNRandom (halloween.childCount, rand);
 			foreach (int i in uniquePos) {
@@ -157,13 +157,23 @@ public class PlaneManager : MonoBehaviour {
 		} else if (manager.level == 2) {
 			var christmas = current.transform.FindChild ("CollectablesSpaces"); // get the christmas collectible spaces
 
-			var rand = Random.Range (0, christmas.childCount/3);
+			var rand = Random.Range (0, christmas.childCount / 3);
 
 			var uniquePos = generateNRandom (christmas.childCount, rand);
 			foreach (int i in uniquePos) {
 				var r = Random.Range (0, christmasCollectables.Length);
 				var obj = (GameObject)Instantiate (christmasCollectables [r], christmas.GetChild (i).position, Quaternion.identity);
 				plane.objects.Push (obj);
+			}
+
+			rand = Random.Range (0, 13); // determine if to add stars
+			if (rand == 1) {
+				var cStar = current.transform.FindChild ("Star");
+				uniquePos = generateNRandom (cStar.childCount, 1);
+				foreach (int i in uniquePos) {
+					var obj = (GameObject)Instantiate (star, cStar.GetChild (i).position, Quaternion.identity);
+					plane.objects.Push (obj);
+				}
 			}
 
 			var cScenery = current.transform.FindChild ("ChristmasScenery");
@@ -181,7 +191,7 @@ public class PlaneManager : MonoBehaviour {
 
 			rand = Random.Range (0, 2); // determine if to add trees
 			if (rand == 1) {
-				var cTrees = cScenery.GetChild(1).transform;
+				var cTrees = cScenery.GetChild (1).transform;
 				rand = Random.Range (0, cTrees.childCount);
 				uniquePos = generateNRandom (cTrees.childCount, rand);
 				foreach (int i in uniquePos) {
@@ -190,9 +200,7 @@ public class PlaneManager : MonoBehaviour {
 					plane.objects.Push (obj);
 				}
 			}
-
 		}
-
 	}
 
 	// generates n unique random numbers
