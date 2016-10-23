@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour {
 	private bool CRrunning;
 	private bool jumpTextOn;
 	//variables that take care of collection count
-	public float maxPoints = 2f; //CHANGE
+	public float maxPoints = 40f;
 	private float currPoints = 0f; //also used for candy cane
 	private float presentPoints = 0f;
 	private float ornamentPoints = 0f;

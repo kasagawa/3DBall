@@ -5,10 +5,10 @@ using System.Collections.Generic;
 public class PlaneManager : MonoBehaviour {
 
 	// amount of planes to create at the start of the game
-	private static int n = 100;
+	private static int n = 200;
 
 	// int used to normalize n (n % k = 0)
-	private static int k = 25;
+	private static int k = 50;
 
 	// int used to normalize randomization
 	private static int s = 3;
