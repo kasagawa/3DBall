@@ -2,7 +2,7 @@
   <content>
 
 # Season’s Greetings
-  *A fast-paced Player vs game game that creates excitement because of the changing holidays and cool game mechanics.*
+  *A fast-paced Player vs game 3D game that creates excitement because of the changing holidays and cool game mechanics.*
 
 ##Game Overview 
 
@@ -104,7 +104,7 @@ Technical
 - The main food resources for the development of this game were as follows: 
   - Strawberries (primarily cheap ones bought at Netto)
   - Raspberries (same as the strawberries)
-  - Whole Wheat bread (from Lauras Bakery at Torvehallerne)
+  - Whole Wheat bread (from Laura's Bakery at Torvehallerne)
   - Butter (tons of it!)
   - Mayonnaise (tons of it!)
   - Ham (or Roastbeef!!)
@@ -126,6 +126,6 @@ Technical
       - Passion smoothie (life changing!!)
       - Blueberry smoothie
       
-  *The food and places described above are located in Copenhaguen, Denmark*
+  *The food and places described above are located in Copenhagen, Denmark*
 </content>
 </snippet>
